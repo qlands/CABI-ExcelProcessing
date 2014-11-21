@@ -18,6 +18,7 @@ public class Main {
     options.addOption(OptionBuilder.withArgName("file").hasArg().withDescription("use the given file as database configuration properties").create("database"));
     options.addOption(OptionBuilder.withArgName("template").hasArg().withDescription("process input file using the given template").isRequired().create("template"));
     options.addOption(OptionBuilder.withArgName("username").hasArg().withDescription("user the given user in all database operations").isRequired().create("user"));
+    options.addOption(OptionBuilder.withArgName("ckanorg").hasArg().withDescription("Organization the a trial or legacy data belong to").isRequired().create("ckanorg"));
     return options;
   }
 
@@ -55,7 +56,7 @@ public class Main {
       configReader = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("default-configuration.xml")));
     }
     SpreadsheetProcessor processor = new SpreadsheetProcessor(configReader, new BufferedInputStream(new FileInputStream(commandLine.getOptionValue("input"))),
-            commandLine.getOptionValue("template"), commandLine.getOptionValue("database"), commandLine.getOptionValue("user"));
+            commandLine.getOptionValue("template"), commandLine.getOptionValue("database"), commandLine.getOptionValue("user"), commandLine.getOptionValue("ckanorg"));
     processor.process();
   }
 }

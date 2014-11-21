@@ -19,13 +19,15 @@ public class DefaultProcessingContext implements IProcessingContext {
   private Map<String, IRangeProcessor> rangeProcessors = Collections.EMPTY_MAP;
   private DatabaseService databaseService;
   private String user;
+  private String ckanorg;
 
-  public DefaultProcessingContext(Map<String, ICellProcessor> cellProcessors, Map<String, IRangeProcessor> rangeProcessors, DatabaseService databaseService, String user) {
+  public DefaultProcessingContext(Map<String, ICellProcessor> cellProcessors, Map<String, IRangeProcessor> rangeProcessors, DatabaseService databaseService, String user, String ckanorg) {
     this.cellProcessors = cellProcessors;
     this.rangeProcessors = rangeProcessors;
     this.databaseService = databaseService;
     context = new HashMap<>();
     this.user = user;
+    this.ckanorg = ckanorg;
   }
 
   @Override
@@ -55,6 +57,12 @@ public class DefaultProcessingContext implements IProcessingContext {
 
   @Override
   public String getUser() {
-    return null;
+    return user;
   }
+
+  @Override
+  public String getckanorg() {
+      return ckanorg;
+  }
+
 }

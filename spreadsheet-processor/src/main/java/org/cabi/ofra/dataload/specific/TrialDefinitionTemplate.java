@@ -16,6 +16,8 @@ import org.cabi.ofra.dataload.util.Utilities;
 
 import javax.rmi.CORBA.Util;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * (c) 2014, Eduardo Quirós-Campos
@@ -36,8 +38,11 @@ public class TrialDefinitionTemplate {
       t.setCountry(context.getv("countryCode"));
       validateCountry(t.getCountry());
       t.setRegionCode(context.getv("regionCode"));
+      t.setRegionName(context.getv("regionName"));
       t.setVillageCode(context.getv("villageCode"));
+      t.setVillageName(context.getv("villageName"));
       t.setDistrictCode(context.getv("districtCode"));
+      t.setDistrictName(context.getv("districtName"));
       t.setFarmerOrCentre(context.getv("farmerOrCentre"));
       t.setLeadResearcher(context.getv("leadResearcher"));
       t.setFieldAssistantName(context.getv("fieldAssistantName"));
@@ -46,9 +51,18 @@ public class TrialDefinitionTemplate {
       validateCrop(t.getCropOne());
       t.setCropTwo(context.getv("cropTwo"));
       validateCrop(t.getCropTwo());
+      t.setCropThree(context.getv("cropThree"));
+      validateCrop(t.getCropThree());
       t.setLat(context.getv("latitude"));
       t.setLng(context.getv("longitude"));
+      Double year;
+      year = context.getv("year");
+      t.setYear(year.intValue());
+      t.setSeason(context.getv("season"));
       t.setUser(context.getUser());
+      t.setckanorg(context.getckanorg());
+      String trialdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+      t.setTrialDate(trialdate);
       return t;
     }
 
