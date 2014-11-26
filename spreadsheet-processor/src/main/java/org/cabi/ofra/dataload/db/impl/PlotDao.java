@@ -9,8 +9,13 @@ import org.cabi.ofra.dataload.model.Plot;
 public class PlotDao extends BaseDao implements IPlotDao {
   @Override
   public boolean existsPlot(Plot plot) {
+    return existsPlotById(plot.getTrialUniqueId(), plot.getBlockNumber(), plot.getPlotId());
+  }
+
+  @Override
+  public boolean existsPlotById(String trialUid, int blockId, int plotId) {
     int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ofrafertrials.plot WHERE trial_id = ? AND block_id = ? AND plot_id = ?", Integer.class,
-            plot.getTrialUniqueId(), String.valueOf(plot.getBlockNumber()), plot.getPlotId());
+            trialUid, String.valueOf(blockId), plotId);
     return count > 0;
   }
 

@@ -1,36 +1,32 @@
 package org.cabi.ofra.dataload.db.impl;
 
-import org.cabi.ofra.dataload.db.ISoilSampleDao;
-import org.cabi.ofra.dataload.model.SoilSample;
-import org.springframework.jdbc.core.RowMapper;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.cabi.ofra.dataload.db.ITrialSoilSampleDao;
+import org.cabi.ofra.dataload.model.TrialSoilSample;
 
 /**
  * Created by equiros on 11/14/2014.
  */
-public class SoilSampleDao extends BaseDao implements ISoilSampleDao {
+public class TrialSoilSampleDao extends BaseDao implements ITrialSoilSampleDao {
   @Override
-  public boolean existsSoilSample(SoilSample sample) {
-    return existsSoilSampleById(sample.getTrialUniqueId(), sample.getSampleId());
+  public boolean existsTrialSoilSample(TrialSoilSample sample) {
+    return existsTrialSoilSampleById(sample.getTrialUniqueId(), sample.getSampleId());
   }
 
   @Override
-  public boolean existsSoilSampleById(String trialUid, int sampleId) {
+  public boolean existsTrialSoilSampleById(String trialUid, int sampleId) {
     int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ofrafertrials.trialsoilsample WHERE trial_id = ? AND ssample_id = ?", Integer.class, trialUid, sampleId);
     return count > 0;
   }
 
   @Override
-  public SoilSample findSoilSampleById(String trialUid, int sampleId) {
+  public TrialSoilSample findTrialSoilSampleById(String trialUid, int sampleId) {
     return jdbcTemplate.queryForObject("SELECT trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, ssample_ssn, " +
                     "ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, ssample_m3mn, " +
                     "ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp " +
                     " FROM ofrafertrials.trialsoilsample " +
                     " WHERE trial_id = ?  AND ssample_id = ?", new Object[] {trialUid, sampleId},
             (resultSet, i) -> {
-              SoilSample sample = new SoilSample();
+              TrialSoilSample sample = new TrialSoilSample();
               sample.setTrialUniqueId(resultSet.getString(1));
               sample.setSampleId(resultSet.getInt(2));
               sample.setCode(resultSet.getString(3));
@@ -59,7 +55,7 @@ public class SoilSampleDao extends BaseDao implements ISoilSampleDao {
   }
 
   @Override
-  public void createSoilSample(SoilSample sample) {
+  public void createTrialSoilSample(TrialSoilSample sample) {
     jdbcTemplate.update("INSERT INTO ofrafertrials.trialsoilsample (trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, " +
                         " ssample_ssn, ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, " +
                         " ssample_m3mn, ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp) " +
@@ -70,7 +66,7 @@ public class SoilSampleDao extends BaseDao implements ISoilSampleDao {
   }
 
   @Override
-  public void updateSoilSample(SoilSample sample) {
+  public void updateTrialSoilSample(TrialSoilSample sample) {
     jdbcTemplate.update("UPDATE ofrafertrials.trialsoilsample SET ssample_code = ?, ssample_cdate = ?, ssample_trt = ?, ssample_depth = ?, ssample_adate = ?, ssample_ssn = ?, " +
                         " ssample_ph = ?, ssample_ec = ?, ssample_m3ai = ?, ssample_m3b = ?, ssample_m3ca = ?, ssample_m3cu = ?, ssample_m3fe = ?, ssample_m3k = ?, " +
                         " ssample_m3mg = ?, ssample_m3mn = ?, ssample_m3na = ?, ssample_m3p = ?, ssample_m3s = ?, ssample_m3zn = ?, ssmaple_hp = ?" +

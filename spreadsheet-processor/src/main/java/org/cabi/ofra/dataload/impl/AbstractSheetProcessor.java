@@ -70,7 +70,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
             try {
               rangeProcessor.processRow(context, r, eventCollector, rangeConfiguration);
             }
-            catch (ProcessorException e) {
+            catch (Exception e) {
               String msg = String.format("Error processing row #%d on RangeProcessor '%s'", i, rangeProcessor.getName());
               logger.warn(msg, e);
               eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withException(e).withType(Event.EVENT_TYPE.WARNING).build());

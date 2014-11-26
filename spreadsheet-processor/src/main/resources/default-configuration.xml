@@ -5,6 +5,8 @@
     <cell-processor name="checkPresent" class="org.cabi.ofra.dataload.impl.CheckPresent"/>
     <cell-processor name="trialValidator" class="org.cabi.ofra.dataload.impl.TrialValidator"/>
     <cell-processor name="blockValidator" class="org.cabi.ofra.dataload.impl.BlockValidator"/>
+    <cell-processor name="blockSoilSampleValidator" class="org.cabi.ofra.dataload.impl.BlockSoilSampleValidator"/>
+    <cell-processor name="plotValidator" class="org.cabi.ofra.dataload.impl.PlotValidator"/>
   </cell-processors>
   <range-processors>
     <range-processor name="trial-blocks-processor" class="org.cabi.ofra.dataload.specific.TrialDefinitionTemplate$BlockRangeProcessor"/>
@@ -12,6 +14,11 @@
     <range-processor name="trial-soil-sample-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$SoilSampleRangeProcessor"/>
     <range-processor name="trial-soil-result-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$SoilResultRangeProcessor"/>
     <range-processor name="block-activities-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockActivitiesRangeProcessor"/>
+    <range-processor name="block-observations-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockObservationsRangeProcessor"/>
+    <range-processor name="block-soil-sample-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockSoilSampleRangeProcessor"/>
+    <range-processor name="block-soil-result-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockSoilResultRangeProcessor"/>
+    <range-processor name="plot-activities-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotActivitiesRangeProcessor"/>
+    <range-processor name="plot-observations-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotObservationsRangeProcessor"/>
   </range-processors>
   <templates>
     <template name="trial-definition">
@@ -243,6 +250,84 @@
                     <arg name="trialMessage" value="Cell value %s references trial UID %s, which does not exist"/>
                     <arg name="blockMessage" value="Cell value %s references block %d for trial UID %s, which does not exist"/>
                   </args>
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="block-observations">
+      <sheets>
+        <sheet name="Block-Observations" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="5" processorReference="block-observations-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="blockValidator">
+                  <args>
+                    <arg name="trialMessage" value="Cell value %s references trial UID %s, which does not exist"/>
+                    <arg name="blockMessage" value="Cell value %s references block %d for trial UID %s, which does not exist"/>
+                  </args>
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="block-soil-sample">
+      <sheets>
+        <sheet name="Block Soil Sample" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="5" processorReference="block-soil-sample-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="blockValidator">
+                  <args>
+                    <arg name="trialMessage" value="Cell value %s references trial UID %s, which does not exist"/>
+                    <arg name="blockMessage" value="Cell value %s references block %d for trial UID %s, which does not exist"/>
+                  </args>
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="block-soil-result">
+      <sheets>
+        <sheet name="Block Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="5" processorReference="block-soil-result-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="blockSoilSampleValidator">
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-activities">
+      <sheets>
+        <sheet name="Plot-Activities" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="5" processorReference="plot-activities-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator">
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-observations">
+      <sheets>
+        <sheet name="Plot-Observations" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="5" processorReference="plot-observations-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator">
                 </column-binding>
               </column-bindings>
             </range>

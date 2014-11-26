@@ -12,6 +12,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,6 +132,21 @@ public class Utilities {
     }
   }
 
+  public static boolean getBooleanCellValue(Cell cell) {
+    switch(getCellType(cell)) {
+      case Cell.CELL_TYPE_BLANK:
+        return false;
+      case Cell.CELL_TYPE_NUMERIC:
+        return cell.getNumericCellValue() != 0.0;
+      case Cell.CELL_TYPE_STRING:
+        return "y".equals(cell.getStringCellValue().toLowerCase());
+      case Cell.CELL_TYPE_BOOLEAN:
+        return cell.getBooleanCellValue();
+      default:
+        return false;
+    }
+  }
+
   public static int getIntegerCellValue(Cell cell) {
     if (cell.getCellType() == Cell.CELL_TYPE_BLANK) {
       return Integer.MIN_VALUE;
@@ -174,11 +190,48 @@ public class Utilities {
     return p.car();
   }
 
+  public static Triplet<String, Integer, Integer> validatePlot(DatabaseService databaseService, String plotUid) throws ProcessorException {
+    Triplet<String, Integer, Integer> triplet = splitPlotUid(plotUid);
+    if (triplet == null) {
+      throw new ProcessorException(String.format("Plot UID '%s' is malformed", plotUid));
+    }
+    if (!databaseService.existsPlotById(triplet.getFirst(), triplet.getSecond(), triplet.getThird())) {
+      throw new ProcessorException(String.format("Referenced plot '%s' does not exist in the database", plotUid));
+    }
+    return triplet;
+  }
+
+  public static Pair<String, Integer> validateBlock(DatabaseService databaseService, String blockUid) throws ProcessorException {
+    Pair<String, Integer> pair = splitBlockUid(blockUid);
+    if (pair == null) {
+      throw new ProcessorException(String.format("Block UID '%s' is malformed", blockUid));
+    }
+    if (!databaseService.existsBlockById(pair.car(), pair.cdr())) {
+      throw new ProcessorException(String.format("Referenced block '%s' does not exist in the database", blockUid));
+    }
+    return pair;
+  }
+
+
   public static void validateTrial(DatabaseService databaseService, String trialUid) throws ProcessorException {
     if (!databaseService.existsTrialByUniqueId(trialUid)) {
       throw new ProcessorException(String.format("Referenced trial '%s' does not exist in database", trialUid));
     }
   }
+
+  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d])");
+  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid) {
+    Pair<String, String> base = splitUid(plotUid);
+    if (base == null) return null;
+    Matcher matcher = blockPlotPattern.matcher(base.cdr());
+    if (matcher.matches()) {
+      return new Triplet<>(base.car(), Integer.valueOf(matcher.group(1)), Integer.valueOf(matcher.group(2)));
+    }
+    else {
+      return null;
+    }
+  }
+
 
   /**
    * Validates that a block UID is valid in the system
@@ -198,12 +251,13 @@ public class Utilities {
    */
   public static Pair<String, Integer> splitBlockUid(String blockUid) throws ProcessorException {
     Pair<String, String> pair = splitUid(blockUid);
+    if (pair == null) return null;
     Matcher matcher = blockPattern.matcher(pair.cdr());
     if (matcher.matches()) {
       return new Pair<>(pair.car(), Integer.valueOf(matcher.group(1)));
     }
     else {
-      throw new ProcessorException(String.format("Unique identifier %s references block %s, which is an invalid identifier", blockUid, pair.cdr()));
+      return null;
     }
   }
 
@@ -223,4 +277,29 @@ public class Utilities {
     }
   }
 
+  public static Pattern defaultSampleCodePattern = Pattern.compile("([\\D]+)([\\d]+)");
+  private static int defaultSampleCodeGroup = 2;
+  private static final String KEY_PATTERN = "regex";
+  private static final String KEY_GROUP = "group";
+
+  public static int extractSampleId(Map<String, Object> args, String sampleIdStr) {
+    Pattern pattern = defaultSampleCodePattern;
+    int group = defaultSampleCodeGroup;
+    if (args.containsKey(KEY_PATTERN)) {
+      pattern = Pattern.compile(args.get(KEY_PATTERN).toString());
+      if (args.containsKey(KEY_GROUP)) {
+        defaultSampleCodeGroup = Integer.valueOf(args.get(KEY_GROUP).toString());
+      }
+    }
+    Matcher matcher = pattern.matcher(sampleIdStr);
+    if (!matcher.matches()) {
+      // if the regex does not match the imput stream, we just assume the string can be converted to integer directly
+      return Integer.valueOf(sampleIdStr);
+    }
+    else {
+      return Integer.valueOf(matcher.group(group));
+    }
+  }
+
+  public static Pattern BlockSoilSamplePattern = Pattern.compile("B([\\d]+)_BSS([\\d]+)");
 }

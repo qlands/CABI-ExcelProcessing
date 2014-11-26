@@ -3,10 +3,11 @@ package org.cabi.ofra.dataload.model;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/14/2014.
+ * Created by equiros on 11/23/2014.
  */
-public class SoilSample {
+public class BlockSoilSample {
   private String trialUniqueId;
+  private int blockId;
   private int sampleId;
   private String code;
   private Date cdate;
@@ -36,6 +37,14 @@ public class SoilSample {
 
   public void setTrialUniqueId(String trialUniqueId) {
     this.trialUniqueId = trialUniqueId;
+  }
+
+  public int getBlockId() {
+    return blockId;
+  }
+
+  public void setBlockId(int blockId) {
+    this.blockId = blockId;
   }
 
   public int getSampleId() {
