@@ -2,35 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18061d3a-8034-4c26-8a73-a4c97683c796" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/model/BlockSoilSample.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/BlockSoilSampleDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/impl/BlockSoilSampleValidator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/model/BlockWeather.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/BlockWeatherDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IBlockSoilSampleDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IBlockWeatherDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IPlotActivityDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IPlotObservationDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/ITrialSoilSampleDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/model/PlotActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/PlotActivityDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/model/PlotObservation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/PlotObservationDao.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/specific/PlotTemplates.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/impl/PlotValidator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/util/Triplet.java" />
-      <change type="DELETED" beforePath="C:\Personal\git\qlands\CABI-ExcelProcessing\spreadsheet-processor\src\main\java\org\cabi\ofra\dataload\db\ISoilSampleDao.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Personal\git\qlands\CABI-ExcelProcessing\spreadsheet-processor\src\main\java\org\cabi\ofra\dataload\db\impl\SoilSampleDao.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/TrialSoilSampleDao.java" />
-      <change type="MOVED" beforePath="C:\Personal\git\qlands\CABI-ExcelProcessing\spreadsheet-processor\src\main\java\org\cabi\ofra\dataload\model\SoilSample.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/model/TrialSoilSample.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/impl/AbstractSheetProcessor.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/impl/AbstractSheetProcessor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/specific/BlockTemplates.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/specific/BlockTemplates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/DatabaseService.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/DatabaseService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IPlotDao.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/IPlotDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/PlotDao.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/db/impl/PlotDao.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/specific/TrialSoilTemplates.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/specific/TrialSoilTemplates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/util/Utilities.java" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/java/org/cabi/ofra/dataload/util/Utilities.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spreadsheet-processor/src/main/resources/default-configuration.xml" afterPath="$PROJECT_DIR$/spreadsheet-processor/src/main/resources/default-configuration.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CABI.iws" />
@@ -60,8 +31,8 @@
       <file leaf-file-name="default-configuration.xml" pinned="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spreadsheet-processor/src/main/resources/default-configuration.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0343137" vertical-offset="326" max-vertical-offset="884">
-              <caret line="336" column="15" selection-start-line="336" selection-start-column="15" selection-end-line="336" selection-end-column="15" />
+            <state vertical-scroll-proportion="0.82598037" vertical-offset="326" max-vertical-offset="884">
+              <caret line="331" column="32" selection-start-line="331" selection-start-column="32" selection-end-line="331" selection-end-column="32" />
               <folding>
                 <element signature="n#template#0;n#templates#0;n#processor-configuration#0;n#!!top" expanded="false" />
                 <element signature="n#sheet#0;n#sheets#0;n#template#0;n#templates#0;n#processor-configuration#0;n#!!top" expanded="false" />
@@ -1099,14 +1070,16 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25597268" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25597268" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34075725" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2854985" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935154" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50341296" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35325265" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1114,15 +1087,13 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34075725" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50341296" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32764506" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3088737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1141,7 +1112,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Completed processing of trial sample and trial sample results" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed processing of trial sample and trial sample results" />
+    <MESSAGE value="Completed all block processing templates, and the activities and observations for plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed all block processing templates, and the activities and observations for plots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1762,8 +1734,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spreadsheet-processor/src/main/resources/default-configuration.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0343137" vertical-offset="326" max-vertical-offset="884">
-          <caret line="336" column="15" selection-start-line="336" selection-start-column="15" selection-end-line="336" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.82598037" vertical-offset="326" max-vertical-offset="884">
+          <caret line="331" column="32" selection-start-line="331" selection-start-column="32" selection-end-line="331" selection-end-column="32" />
           <folding>
             <element signature="n#template#0;n#templates#0;n#processor-configuration#0;n#!!top" expanded="false" />
             <element signature="n#sheet#0;n#sheets#0;n#template#0;n#templates#0;n#processor-configuration#0;n#!!top" expanded="false" />
