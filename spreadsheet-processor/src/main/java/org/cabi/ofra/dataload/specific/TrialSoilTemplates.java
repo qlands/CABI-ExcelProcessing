@@ -18,21 +18,19 @@ import java.util.List;
  * Created by equiros on 11/12/2014.
  */
 public class TrialSoilTemplates {
-  public static class SoilSampleRangeProcessor extends AbstractRangeProcessor {
+  public static class TrialSoilSampleRangeProcessor extends AbstractRangeProcessor {
     private DatabaseService databaseService;
 
     @Override
     protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
       databaseService = context.getDatabaseService();
       String trialUid = Utilities.getStringCellValue(row.get(0));
-      Utilities.validateTrial(databaseService, trialUid);
       String sampleCode = Utilities.getStringCellValue(row.get(1));
-      int scode = Utilities.extractSampleId(arguments, sampleCode);
-      TrialSoilSample trialSoilSample = databaseService.findTrialSoilSampleById(trialUid, scode);
+      TrialSoilSample trialSoilSample = databaseService.findTrialSoilSampleByCode(trialUid, sampleCode);
       if (trialSoilSample == null) {
         trialSoilSample = new TrialSoilSample();
         trialSoilSample.setTrialUniqueId(trialUid);
-        trialSoilSample.setSampleId(scode);
+        trialSoilSample.setSampleId(Utilities.extractSampleId(sampleCode));
       }
       trialSoilSample.setCode(sampleCode);
       try {
@@ -47,26 +45,22 @@ public class TrialSoilTemplates {
     }
   }
 
-  public static class SoilResultRangeProcessor extends AbstractRangeProcessor {
+  public static class TrialSoilResultRangeProcessor extends AbstractRangeProcessor {
     private DatabaseService databaseService;
 
     protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
       databaseService = context.getDatabaseService();
       String uid = Utilities.getStringCellValue(row.get(0));
       Pair<String, String> pair = Utilities.splitUid(uid);
-      if (pair == null) {
-        throw new ProcessorException(String.format("Trial soil identifier '%s' is malformed. Please check template", uid));
+      if (pair != null) {
+        String trialUid = pair.car();
+        String sampleCode = pair.cdr();
+        TrialSoilSample trialSoilSample = databaseService.findTrialSoilSampleByCode(trialUid, sampleCode);
+        if (trialSoilSample != null) {
+          fillSoilSample(trialSoilSample, row);
+          databaseService.updateTrialSoilSample(trialSoilSample);
+        }
       }
-      String trialUid = pair.car();
-      Utilities.validateTrial(databaseService, trialUid);
-      String sampleIdStr = pair.cdr();
-      int sampleId = Utilities.extractSampleId(arguments, sampleIdStr);
-      TrialSoilSample trialSoilSample = databaseService.findTrialSoilSampleById(trialUid, sampleId);
-      if (trialSoilSample == null) {
-        throw new ProcessorException(String.format("Trial soil sample identified by trial id '%s' and sample id '%d' does not exist.", trialUid, sampleId));
-      }
-      fillSoilSample(trialSoilSample, row);
-      databaseService.updateTrialSoilSample(trialSoilSample);
     }
 
     private void fillSoilSample(TrialSoilSample trialSoilSample, List<Cell> row) throws ProcessorException {

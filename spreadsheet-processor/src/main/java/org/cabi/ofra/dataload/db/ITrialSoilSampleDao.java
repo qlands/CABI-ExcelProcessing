@@ -9,6 +9,7 @@ public interface ITrialSoilSampleDao extends IDao {
   public boolean existsTrialSoilSample(TrialSoilSample sample);
   public boolean existsTrialSoilSampleById(String trialUid, int sampleId);
   public TrialSoilSample findTrialSoilSampleById(String trialUid, int sampleId);
+  public TrialSoilSample findTrialSoilSampleByCode(String trialUid, String sampleCode);
   public void createTrialSoilSample(TrialSoilSample sample);
   public void updateTrialSoilSample(TrialSoilSample sample);
 }

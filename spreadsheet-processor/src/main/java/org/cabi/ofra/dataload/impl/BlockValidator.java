@@ -13,18 +13,30 @@ import org.cabi.ofra.dataload.util.Utilities;
  * Created by equiros on 11/19/2014.
  */
 public class BlockValidator extends AbstractProcessor implements ICellProcessor {
+  private static final String KEY_MALFORMEDUIDMESSAGE = "malformedUidMessage";
   private static final String KEY_TRIALMESSAGE = "trialMessage";
   private static final String KEY_BLOCKMESSAGE = "blockMessage";
+  protected DatabaseService databaseService;
+
   @Override
   public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
-    DatabaseService databaseService = context.getDatabaseService();
+    databaseService = context.getDatabaseService();
     String blockUid = Utilities.getStringCellValue(cell);
-    Pair<String, Integer> pair = Utilities.splitBlockUid(blockUid);
+    StringBuffer postBlockSegment = new StringBuffer();
+    Pair<String, Integer> pair = Utilities.splitBlockUid(blockUid, (segment, matcher) -> postBlockSegment.append(segment));
+    if (pair == null) {
+      throw new ProcessorException(getMessage(KEY_MALFORMEDUIDMESSAGE, "Cell value %s references a Block UID which is malformed"));
+    }
     if (!databaseService.existsTrialByUniqueId(pair.car())) {
       throw new ProcessorException(getMessage(KEY_TRIALMESSAGE, "Cell value %s references trial UID %s, which does not exist", blockUid, pair.car()));
     }
     if (!databaseService.existsBlockById(pair.car(), pair.cdr())) {
       throw new ProcessorException(getMessage(KEY_BLOCKMESSAGE, "Cell value %s references block %d for trial UID %s, which does not exist", blockUid, pair.cdr(), pair.car()));
     }
+    processPostBlockSegment(pair.car(), pair.cdr(), postBlockSegment.toString());
+  }
+
+  protected void processPostBlockSegment(String trialUid, int blockId, String segment) throws ProcessorException {
+
   }
 }

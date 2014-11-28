@@ -26,6 +26,8 @@ public class DatabaseService {
   private IBlockWeatherDao blockWeatherDao;
   private IPlotActivityDao plotActivityDao;
   private IPlotObservationDao plotObservationDao;
+  private IPlotPlantSampleDao plotPlantSampleDao;
+  private IPlotSoilSampleDao plotSoilSampleDao;
 
   public DatabaseService() {
     dataSource = new BasicDataSource();
@@ -61,6 +63,10 @@ public class DatabaseService {
     plotActivityDao.setDataSource(dataSource);
     plotObservationDao = new PlotObservationDao();
     plotObservationDao.setDataSource(dataSource);
+    plotPlantSampleDao = new PlotPlantSampleDao();
+    plotPlantSampleDao.setDataSource(dataSource);
+    plotSoilSampleDao = new PlotSoilSampleDao();
+    plotSoilSampleDao.setDataSource(dataSource);
   }
 
   private void initializeDataSource(String propertiesFile) throws IOException {
@@ -132,6 +138,10 @@ public class DatabaseService {
     return trialSoilSampleDao.findTrialSoilSampleById(trialUid, sampleId);
   }
 
+  public TrialSoilSample findTrialSoilSampleByCode(String trialUid, String sampleCode) {
+    return trialSoilSampleDao.findTrialSoilSampleByCode(trialUid, sampleCode);
+  }
+
   public void updateTrialSoilSample(TrialSoilSample trialSoilSample) {
     trialSoilSampleDao.updateTrialSoilSample(trialSoilSample);
   }
@@ -182,6 +192,10 @@ public class DatabaseService {
     return blockSoilSampleDao.findBlockSoilSampleById(trialUid, blockId, sampleId);
   }
 
+  public BlockSoilSample findBlockSoilSampleByCode(String trialUid, int blockId, String sampleCode) {
+    return blockSoilSampleDao.findBlockSoilSampleByCode(trialUid, blockId, sampleCode);
+  }
+
   public void updateBlockSoilSample(BlockSoilSample blockSoilSample) {
     blockSoilSampleDao.updateBlockSoilSample(blockSoilSample);
   }
@@ -226,6 +240,41 @@ public class DatabaseService {
     }
     else {
       plotObservationDao.createObservation(observation);
+    }
+  }
+
+  public PlotPlantSample findPlotPlantSampleByCode(String trialUid, int blockId, int plotId, String sampleCode) {
+    return plotPlantSampleDao.findPlotPlantSampleByCode(trialUid, blockId, plotId, sampleCode);
+  }
+
+  public void updatePlotPlantSample(PlotPlantSample plotPlantSample) {
+    plotPlantSampleDao.updatePlotPlantSample(plotPlantSample);
+  }
+
+  public void createOrUpdatePlotPlantSample(PlotPlantSample plotPlantSample) {
+    if (plotPlantSampleDao.existsPlotPlantSampleById(plotPlantSample.getTrialUniqueId(), plotPlantSample.getBlockId(), plotPlantSample.getPlotId(), plotPlantSample.getSampleId())) {
+      plotPlantSampleDao.updatePlotPlantSample(plotPlantSample);
+    }
+    else {
+      plotPlantSampleDao.createPlotPlantSample(plotPlantSample);
+    }
+  }
+
+  // Plot Soil Sample
+  public PlotSoilSample findPlotSoilSampleByCode(String trialUid, int blockId, int plotId, String sampleCode) {
+    return plotSoilSampleDao.findPlotSoilSampleByCode(trialUid, blockId, plotId, sampleCode);
+  }
+
+  public void updatePlotSoilSample(PlotSoilSample plotSoilSample) {
+    plotSoilSampleDao.updatePlotSoilSample(plotSoilSample);
+  }
+
+  public void createOrUpdatePlotSoilSample(PlotSoilSample plotSoilSample) {
+    if (plotSoilSampleDao.existsPlotSoilSample(plotSoilSample)) {
+      plotSoilSampleDao.updatePlotSoilSample(plotSoilSample);
+    }
+    else {
+      plotSoilSampleDao.createPlotSoilSample(plotSoilSample);
     }
   }
 }

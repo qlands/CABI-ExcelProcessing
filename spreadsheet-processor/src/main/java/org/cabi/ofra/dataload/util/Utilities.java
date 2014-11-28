@@ -19,6 +19,14 @@ import java.util.regex.Pattern;
 
 /**
  * (c) 2014, Eduardo Quirós-Campos
+ * Class that provides multiple general use routines for template processing, including:
+ * Cell range validation
+ * Cell value conversion
+ * Cell date parsing
+ * Trial validation
+ * Block validation
+ * Plot validation
+ * Plant/Soil Sample ID validation
  */
 public class Utilities {
   private static Logger logger = LoggerFactory.getLogger(Utilities.class);
@@ -219,17 +227,51 @@ public class Utilities {
     }
   }
 
-  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d])");
-  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid) {
+  /**
+   * Functional interface to allow consumption of a UID segment using split methods. The idea is that once
+   * a valid UID portion is identified (trial, block, plot), the rest of the identifier (after a '_')
+   * can be consumed by processing logic without being explicitly returned by the split method
+   */
+  public static interface IUidSegmentConsumer {
+    /**
+     * Allows consumption of a UID segment
+     * @param segment the string segment after a valid UID and the following '_'
+     * @param matcher the regex matcher used to split the post-UID segment
+     */
+    void consume(String segment, Matcher matcher);
+  }
+
+  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d])[_]?([a-zA-Z0-9]*)");
+
+  /**
+   * Splits a Plot UID in three elements:
+   * - A {@code String} with the Trial UID
+   * - A {@code Integer} with the Block ID
+   * - A {@code Integer} with the Plot ID
+   *
+   * The method also allows consumption of the post-UID segment via a {@link org.cabi.ofra.dataload.util.Utilities.IUidSegmentConsumer}
+   * @param plotUid A string identifying a Plot UID
+   * @param consumer The {@link org.cabi.ofra.dataload.util.Utilities.IUidSegmentConsumer} for consumption of the post-UID segment
+   * @return a {@link org.cabi.ofra.dataload.util.Triplet} with the component elements of the Plot UID
+   */
+  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid, IUidSegmentConsumer consumer) {
     Pair<String, String> base = splitUid(plotUid);
     if (base == null) return null;
     Matcher matcher = blockPlotPattern.matcher(base.cdr());
     if (matcher.matches()) {
-      return new Triplet<>(base.car(), Integer.valueOf(matcher.group(1)), Integer.valueOf(matcher.group(2)));
+      Triplet<String, Integer, Integer> ret = new Triplet<>(base.car(), Integer.valueOf(matcher.group(1)), Integer.valueOf(matcher.group(2)));
+      if (matcher.groupCount() > 2 && consumer != null) {
+        consumer.consume(matcher.group(3), matcher);
+      }
+      return ret;
     }
     else {
       return null;
     }
+  }
+
+  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid) {
+    return splitPlotUid(plotUid, null);
   }
 
 
@@ -240,8 +282,23 @@ public class Utilities {
    * @throws ProcessorException When the referenced blockUid is not valid, either syntactically or because it references
    * an block that does not exist
    */
-  private static Pattern blockPattern = Pattern.compile("B([\\d]+)");
+  private static Pattern blockPattern = Pattern.compile("B([\\d]+)[_]?([a-zA-Z0-9]*)");
 
+  public static Pair<String, Integer> splitBlockUid(String blockUid, IUidSegmentConsumer consumer) throws ProcessorException {
+    Pair<String, String> pair = splitUid(blockUid);
+    if (pair == null) return null;
+    Matcher matcher = blockPattern.matcher(pair.cdr());
+    if (matcher.matches()) {
+      Pair<String, Integer> ret = new Pair<>(pair.car(), Integer.valueOf(matcher.group(1)));
+      if (matcher.groupCount() > 1 && consumer != null) {
+        consumer.consume(matcher.group(2), matcher);
+      }
+      return ret;
+    }
+    else {
+      return null;
+    }
+  }
   /**
    * Splits a Block UID into a Trial UID and an integer block number. Internally separates the block reference (in the form B###), and
    * uses the number for return
@@ -250,54 +307,19 @@ public class Utilities {
    * @throws ProcessorException
    */
   public static Pair<String, Integer> splitBlockUid(String blockUid) throws ProcessorException {
-    Pair<String, String> pair = splitUid(blockUid);
-    if (pair == null) return null;
-    Matcher matcher = blockPattern.matcher(pair.cdr());
-    if (matcher.matches()) {
-      return new Pair<>(pair.car(), Integer.valueOf(matcher.group(1)));
-    }
-    else {
-      return null;
-    }
+    return splitBlockUid(blockUid, null);
   }
 
-  public static int validateAndExtractBlock(DatabaseService databaseService, String blockUid) throws ProcessorException {
-    Pair<String, String> p = splitUid(blockUid);
-    if (p == null) {
-      throw new ProcessorException(String.format("Unique identifier %s is invalid for block reference", blockUid));
-    }
-    // first, validate the trial
-    validateTrial(databaseService, p.car());
-    Matcher matcher = blockPattern.matcher(p.cdr());
-    if (matcher.matches()) {
-      return Integer.valueOf(matcher.group(1));
-    }
-    else {
-      throw new ProcessorException(String.format("Unique identifier %s references block %s, which is an invalid identifier", blockUid, p.cdr()));
-    }
-  }
+  public static Pattern sampleCodePattern = Pattern.compile("[\\D]+([\\d]+)");
 
-  public static Pattern defaultSampleCodePattern = Pattern.compile("([\\D]+)([\\d]+)");
-  private static int defaultSampleCodeGroup = 2;
-  private static final String KEY_PATTERN = "regex";
-  private static final String KEY_GROUP = "group";
-
-  public static int extractSampleId(Map<String, Object> args, String sampleIdStr) {
-    Pattern pattern = defaultSampleCodePattern;
-    int group = defaultSampleCodeGroup;
-    if (args.containsKey(KEY_PATTERN)) {
-      pattern = Pattern.compile(args.get(KEY_PATTERN).toString());
-      if (args.containsKey(KEY_GROUP)) {
-        defaultSampleCodeGroup = Integer.valueOf(args.get(KEY_GROUP).toString());
-      }
-    }
-    Matcher matcher = pattern.matcher(sampleIdStr);
+  public static int extractSampleId(String sampleIdStr) {
+    Matcher matcher = sampleCodePattern.matcher(sampleIdStr);
     if (!matcher.matches()) {
       // if the regex does not match the imput stream, we just assume the string can be converted to integer directly
       return Integer.valueOf(sampleIdStr);
     }
     else {
-      return Integer.valueOf(matcher.group(group));
+      return Integer.valueOf(matcher.group(1));
     }
   }
 

@@ -88,26 +88,27 @@ public class BlockTemplates {
     protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
       databaseService = context.getDatabaseService();
       String blockUid = Utilities.getStringCellValue(row.get(0));
-      Utilities.validateBlock(databaseService, blockUid);
       Pair<String, Integer> pair = Utilities.splitBlockUid(blockUid);
-      String sampleCodeStr = Utilities.getStringCellValue(row.get(1));
-      int sampleCode = Utilities.extractSampleId(arguments, sampleCodeStr);
-      BlockSoilSample sample = databaseService.findBlockSoilSampleById(pair.car(), pair.cdr(), sampleCode);
-      if (sample == null) {
-        sample.setTrialUniqueId(pair.car());
-        sample.setBlockId(pair.cdr());
-        sample.setSampleId(sampleCode);
+      if (pair != null) {
+        Utilities.validateBlock(databaseService, blockUid);
+        String sampleCode = Utilities.getStringCellValue(row.get(1));
+        BlockSoilSample sample = databaseService.findBlockSoilSampleByCode(pair.car(), pair.cdr(), sampleCode);
+        if (sample == null) {
+          sample.setTrialUniqueId(pair.car());
+          sample.setBlockId(pair.cdr());
+          sample.setSampleId(Utilities.extractSampleId(sampleCode));
+        }
+        sample.setCode(sampleCode);
+        try {
+          sample.setCdate(Utilities.getDateCellValue(row.get(2)));
+        }
+        catch (ParseException e) {
+          throw new ProcessorException(e);
+        }
+        sample.setTrt(Utilities.getStringCellValue(row.get(3)));
+        sample.setDepth(Utilities.getStringCellValue(row.get(4)));
+        databaseService.createOrUpdateBlockSoilSample(sample);
       }
-      sample.setCode(sampleCodeStr);
-      try {
-        sample.setCdate(Utilities.getDateCellValue(row.get(2)));
-      }
-      catch (ParseException e) {
-        throw new ProcessorException(e);
-      }
-      sample.setTrt(Utilities.getStringCellValue(row.get(3)));
-      sample.setDepth(Utilities.getStringCellValue(row.get(4)));
-      databaseService.createOrUpdateBlockSoilSample(sample);
     }
   }
 
@@ -117,38 +118,36 @@ public class BlockTemplates {
     @Override
     protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
       databaseService = context.getDatabaseService();
-      String uid = Utilities.getStringCellValue(row.get(0));
-      Pair<String, String> pair = Utilities.splitUid(uid);
-      String trialUid = pair.car();
-      Utilities.validateTrial(databaseService, trialUid);
-      Matcher matcher = Utilities.BlockSoilSamplePattern.matcher(pair.cdr());
-      if (matcher.matches()) {
-        int blockId = Integer.valueOf(matcher.group(1));
-        int sampleId = Integer.valueOf(matcher.group(2));
-        BlockSoilSample sample = databaseService.findBlockSoilSampleById(trialUid, blockId, sampleId);
-        sample.setSsn(Utilities.getStringCellValue(row.get(1)));
-        try {
-          sample.setAdate(Utilities.getDateCellValue(row.get(2)));
+      String sampleUid = Utilities.getStringCellValue(row.get(0));
+      StringBuffer sampleCode = new StringBuffer();
+      Pair<String, Integer> pair = Utilities.splitBlockUid(sampleUid, (segment, matcher) -> sampleCode.append(segment));
+      if (pair != null) {
+        BlockSoilSample sample = databaseService.findBlockSoilSampleByCode(pair.car(), pair.cdr(), sampleCode.toString());
+        if (sample != null) {
+          sample.setSsn(Utilities.getStringCellValue(row.get(1)));
+          try {
+            sample.setAdate(Utilities.getDateCellValue(row.get(2)));
+          }
+          catch (ParseException e) {
+            throw new ProcessorException(e);
+          }
+          sample.setPh(Utilities.getDoubleCellValue(row.get(3)));
+          sample.setEc(Utilities.getDoubleCellValue(row.get(4)));
+          sample.setM3ai(Utilities.getDoubleCellValue(row.get(5)));
+          sample.setM3b(Utilities.getDoubleCellValue(row.get(6)));
+          sample.setM3ca(Utilities.getDoubleCellValue(row.get(7)));
+          sample.setM3cu(Utilities.getDoubleCellValue(row.get(8)));
+          sample.setM3fe(Utilities.getDoubleCellValue(row.get(9)));
+          sample.setM3k(Utilities.getDoubleCellValue(row.get(10)));
+          sample.setM3mg(Utilities.getDoubleCellValue(row.get(11)));
+          sample.setM3mn(Utilities.getDoubleCellValue(row.get(12)));
+          sample.setM3na(Utilities.getDoubleCellValue(row.get(13)));
+          sample.setM3p(Utilities.getDoubleCellValue(row.get(14)));
+          sample.setM3s(Utilities.getDoubleCellValue(row.get(15)));
+          sample.setM3zn(Utilities.getDoubleCellValue(row.get(16)));
+          sample.setHp(Utilities.getDoubleCellValue(row.get(17)));
+          databaseService.updateBlockSoilSample(sample);
         }
-        catch (ParseException e) {
-          throw new ProcessorException(e);
-        }
-        sample.setPh(Utilities.getDoubleCellValue(row.get(3)));
-        sample.setEc(Utilities.getDoubleCellValue(row.get(4)));
-        sample.setM3ai(Utilities.getDoubleCellValue(row.get(5)));
-        sample.setM3b(Utilities.getDoubleCellValue(row.get(6)));
-        sample.setM3ca(Utilities.getDoubleCellValue(row.get(7)));
-        sample.setM3cu(Utilities.getDoubleCellValue(row.get(8)));
-        sample.setM3fe(Utilities.getDoubleCellValue(row.get(9)));
-        sample.setM3k(Utilities.getDoubleCellValue(row.get(10)));
-        sample.setM3mg(Utilities.getDoubleCellValue(row.get(11)));
-        sample.setM3mn(Utilities.getDoubleCellValue(row.get(12)));
-        sample.setM3na(Utilities.getDoubleCellValue(row.get(13)));
-        sample.setM3p(Utilities.getDoubleCellValue(row.get(14)));
-        sample.setM3s(Utilities.getDoubleCellValue(row.get(15)));
-        sample.setM3zn(Utilities.getDoubleCellValue(row.get(16)));
-        sample.setHp(Utilities.getDoubleCellValue(row.get(17)));
-        databaseService.updateBlockSoilSample(sample);
       }
     }
   }

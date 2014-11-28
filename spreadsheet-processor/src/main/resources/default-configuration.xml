@@ -4,21 +4,29 @@
     <cell-processor name="valset" class="org.cabi.ofra.dataload.impl.ValidateAndSet"/>
     <cell-processor name="checkPresent" class="org.cabi.ofra.dataload.impl.CheckPresent"/>
     <cell-processor name="trialValidator" class="org.cabi.ofra.dataload.impl.TrialValidator"/>
+    <cell-processor name="trialSoilSampleValidator" class="org.cabi.ofra.dataload.impl.TrialSoilSampleValidator"/>
     <cell-processor name="blockValidator" class="org.cabi.ofra.dataload.impl.BlockValidator"/>
     <cell-processor name="blockSoilSampleValidator" class="org.cabi.ofra.dataload.impl.BlockSoilSampleValidator"/>
     <cell-processor name="plotValidator" class="org.cabi.ofra.dataload.impl.PlotValidator"/>
+    <cell-processor name="plotPlantSampleValidator" class="org.cabi.ofra.dataload.impl.PlotPlantSampleValidator"/>
+    <cell-processor name="plotSoilSampleValidator" class="org.cabi.ofra.dataload.impl.PlotSoilSampleValidator"/>
   </cell-processors>
   <range-processors>
     <range-processor name="trial-blocks-processor" class="org.cabi.ofra.dataload.specific.TrialDefinitionTemplate$BlockRangeProcessor"/>
     <range-processor name="trial-plots-processor" class="org.cabi.ofra.dataload.specific.TrialDefinitionTemplate$PlotRangeProcessor"/>
-    <range-processor name="trial-soil-sample-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$SoilSampleRangeProcessor"/>
-    <range-processor name="trial-soil-result-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$SoilResultRangeProcessor"/>
+    <range-processor name="trial-soil-sample-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$TrialSoilSampleRangeProcessor"/>
+    <range-processor name="trial-soil-result-processor" class="org.cabi.ofra.dataload.specific.TrialSoilTemplates$TrialSoilResultRangeProcessor"/>
     <range-processor name="block-activities-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockActivitiesRangeProcessor"/>
     <range-processor name="block-observations-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockObservationsRangeProcessor"/>
     <range-processor name="block-soil-sample-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockSoilSampleRangeProcessor"/>
     <range-processor name="block-soil-result-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockSoilResultRangeProcessor"/>
+    <range-processor name="block-weather-processor" class="org.cabi.ofra.dataload.specific.BlockTemplates$BlockWeatherRangeProcessor"/>
     <range-processor name="plot-activities-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotActivitiesRangeProcessor"/>
     <range-processor name="plot-observations-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotObservationsRangeProcessor"/>
+    <range-processor name="plot-plant-sample-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotPlantSampleRangeProcessor"/>
+    <range-processor name="plot-plant-sample-results-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotPlantSampleResultsRangeProcessor"/>
+    <range-processor name="plot-soil-sample-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotSoilSampleRangeProcessor"/>
+    <range-processor name="plot-soil-sample-results-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotSoilSampleResultsRangeProcessor"/>
   </range-processors>
   <templates>
     <template name="trial-definition">
@@ -222,17 +230,13 @@
         </sheet>
       </sheets>
     </template>
-    <template name="trial-soil-result">
+    <template name="trial-soil-sample-result">
       <sheets>
         <sheet name="Trial Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
             <range start="A2" width="18" processorReference="trial-soil-result-processor" requireAll="true">
               <column-bindings>
-                <column-binding column="0" processorReference="trialValidator">
-                  <args>
-                    <arg name="message" value="Cell value '%s' references trial unique identifier '%s', which does not exist"/>
-                  </args>
-                </column-binding>
+                <column-binding column="0" processorReference="trialSoilSampleValidator"/>
               </column-bindings>
             </range>
           </ranges>
@@ -293,7 +297,7 @@
         </sheet>
       </sheets>
     </template>
-    <template name="block-soil-result">
+    <template name="block-soil-sample-result">
       <sheets>
         <sheet name="Block Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
@@ -301,6 +305,19 @@
               <column-bindings>
                 <column-binding column="0" processorReference="blockSoilSampleValidator">
                 </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="block-weather">
+      <sheets>
+        <sheet name="Block Soil Sample" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="8" processorReference="block-weather-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="blockValidator"/>
               </column-bindings>
             </range>
           </ranges>
@@ -329,6 +346,61 @@
               <column-bindings>
                 <column-binding column="0" processorReference="plotValidator">
                 </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-plant-sample">
+      <sheets>
+        <sheet name="Plot Plant Sample" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="4" processorReference="plot-plant-sample-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator">
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-plant-sample-result">
+      <sheets>
+        <sheet name="Plot Plant Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="14" processorReference="plot-plant-sample-results-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotPlantSampleValidator">
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-soil-sample">
+      <sheets>
+        <sheet name="Plot Soil Sample" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="4" processorReference="plot-soil-sample-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator">
+                </column-binding>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <template name="plot-plant-sample-result">
+      <sheets>
+        <sheet name="Plot Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="14" processorReference="plot-soil-sample-results-processor">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotSoilSampleValidator"/>
               </column-bindings>
             </range>
           </ranges>
