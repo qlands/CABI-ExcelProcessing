@@ -211,7 +211,7 @@ public class DatabaseService {
 
   // Block Weather Data
   public boolean findBlockWeatherById(String trialUid, int blockId, Date collectionDate) {
-    return blockWeatherDao.findBlockWeatherById(trialUid, blockId, collectionDate);
+    return blockWeatherDao.existsBlockWeatherById(trialUid, blockId, collectionDate);
   }
 
   public void createOrUpdateBlockWeather(BlockWeather blockWeather) {

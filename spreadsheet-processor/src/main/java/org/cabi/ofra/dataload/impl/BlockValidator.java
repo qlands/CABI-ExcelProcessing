@@ -25,7 +25,7 @@ public class BlockValidator extends AbstractProcessor implements ICellProcessor 
     StringBuffer postBlockSegment = new StringBuffer();
     Pair<String, Integer> pair = Utilities.splitBlockUid(blockUid, (segment, matcher) -> postBlockSegment.append(segment));
     if (pair == null) {
-      throw new ProcessorException(getMessage(KEY_MALFORMEDUIDMESSAGE, "Cell value %s references a Block UID which is malformed"));
+      throw new ProcessorException(getMessage(KEY_MALFORMEDUIDMESSAGE, "Cell value %s references a Block UID which is malformed", blockUid));
     }
     if (!databaseService.existsTrialByUniqueId(pair.car())) {
       throw new ProcessorException(getMessage(KEY_TRIALMESSAGE, "Cell value %s references trial UID %s, which does not exist", blockUid, pair.car()));

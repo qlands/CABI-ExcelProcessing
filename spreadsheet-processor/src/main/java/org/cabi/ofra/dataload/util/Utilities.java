@@ -171,7 +171,7 @@ public class Utilities {
       return Integer.valueOf(v.toString());
     }
   }
-  private static Pattern uidPattern = Pattern.compile("([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([\\d]{4})([a-zA-Z0-9]{2})[_]?([a-zA-Z0-9]*)");
+  private static Pattern uidPattern = Pattern.compile("([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([\\d]{4})([a-zA-Z0-9]{2})[_]?(.*)");
 
   public static Matcher matchUid(String uid) {
     Matcher m = uidPattern.matcher(uid);
@@ -241,7 +241,7 @@ public class Utilities {
     void consume(String segment, Matcher matcher);
   }
 
-  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d])[_]?([a-zA-Z0-9]*)");
+  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d]+)[_]?([a-zA-Z0-9]*)");
 
   /**
    * Splits a Plot UID in three elements:
@@ -282,7 +282,7 @@ public class Utilities {
    * @throws ProcessorException When the referenced blockUid is not valid, either syntactically or because it references
    * an block that does not exist
    */
-  private static Pattern blockPattern = Pattern.compile("B([\\d]+)[_]?([a-zA-Z0-9]*)");
+  private static Pattern blockPattern = Pattern.compile("B([\\d]+)[_]?(.*)");
 
   public static Pair<String, Integer> splitBlockUid(String blockUid, IUidSegmentConsumer consumer) throws ProcessorException {
     Pair<String, String> pair = splitUid(blockUid);

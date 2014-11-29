@@ -2,6 +2,10 @@ package org.cabi.ofra.dataload.db.impl;
 
 import org.cabi.ofra.dataload.db.IBlockObservationDao;
 import org.cabi.ofra.dataload.model.BlockObservation;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+
+import java.sql.SQLException;
 
 /**
  * Created by equiros on 11/19/2014.
@@ -9,19 +13,24 @@ import org.cabi.ofra.dataload.model.BlockObservation;
 public class BlockObservationDao extends BaseDao implements IBlockObservationDao {
   @Override
   public BlockObservation findBlockObservationById(String trialUid, int blockNumber, int observationId) {
-    return jdbcTemplate.queryForObject("SELECT trial_id, block_id, obs_id, obs_date, obs_notes, obs_disea " +
-                    " FROM ofrafertrials.blockobservation" +
-                    " WHERE trial_id = ? AND block_id = ? AND obs_id = ?", new Object[]{trialUid, blockNumber, observationId},
-            (resultSet, i) -> {
-              BlockObservation blockObservation = new BlockObservation();
-              blockObservation.setTrialUniqueId(resultSet.getString(1));
-              blockObservation.setBlockNumber(resultSet.getInt(2));
-              blockObservation.setObservationId(resultSet.getInt(3));
-              blockObservation.setObservationDate(resultSet.getDate(4));
-              blockObservation.setObservationNotes(resultSet.getString(5));
-              blockObservation.setObservationDiseaseRelated(resultSet.getBoolean(6));
-              return blockObservation;
-            });
+    try {
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, obs_id, obs_date, obs_notes, obs_disea " +
+                      " FROM ofrafertrials.blockobservation" +
+                      " WHERE trial_id = ? AND block_id = ? AND obs_id = ?", new Object[]{trialUid, blockNumber, observationId},
+              (resultSet, i) -> {
+                BlockObservation blockObservation = new BlockObservation();
+                blockObservation.setTrialUniqueId(resultSet.getString(1));
+                blockObservation.setBlockNumber(resultSet.getInt(2));
+                blockObservation.setObservationId(resultSet.getInt(3));
+                blockObservation.setObservationDate(resultSet.getDate(4));
+                blockObservation.setObservationNotes(resultSet.getString(5));
+                blockObservation.setObservationDiseaseRelated(resultSet.getBoolean(6));
+                return blockObservation;
+              });
+    }
+    catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override

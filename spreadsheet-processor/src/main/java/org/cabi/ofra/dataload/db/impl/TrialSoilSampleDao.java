@@ -2,6 +2,8 @@ package org.cabi.ofra.dataload.db.impl;
 
 import org.cabi.ofra.dataload.db.ITrialSoilSampleDao;
 import org.cabi.ofra.dataload.model.TrialSoilSample;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,26 +25,36 @@ public class TrialSoilSampleDao extends BaseDao implements ITrialSoilSampleDao {
 
   @Override
   public TrialSoilSample findTrialSoilSampleById(String trialUid, int sampleId) {
-    return jdbcTemplate.queryForObject("SELECT trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, ssample_ssn, " +
-                    "ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, ssample_m3mn, " +
-                    "ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp " +
-                    " FROM ofrafertrials.trialsoilsample " +
-                    " WHERE trial_id = ?  AND ssample_id = ?", new Object[] {trialUid, sampleId},
-            (resultSet, i) -> {
-              return buildTrialSoilSample(resultSet);
-            });
+    try {
+      return jdbcTemplate.queryForObject("SELECT trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, ssample_ssn, " +
+                      "ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, ssample_m3mn, " +
+                      "ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp " +
+                      " FROM ofrafertrials.trialsoilsample " +
+                      " WHERE trial_id = ?  AND ssample_id = ?", new Object[] {trialUid, sampleId},
+              (resultSet, i) -> {
+                return buildTrialSoilSample(resultSet);
+              });
+    }
+    catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override
   public TrialSoilSample findTrialSoilSampleByCode(String trialUid, String sampleCode) {
-    return jdbcTemplate.queryForObject("SELECT trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, ssample_ssn, " +
-                    "ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, ssample_m3mn, " +
-                    "ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp " +
-                    " FROM ofrafertrials.trialsoilsample " +
-                    " WHERE trial_id = ?  AND ssample_code = ?", new Object[] {trialUid, sampleCode},
-            (resultSet, i) -> {
-              return buildTrialSoilSample(resultSet);
-            });
+    try {
+      return jdbcTemplate.queryForObject("SELECT trial_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, ssample_ssn, " +
+                      "ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, ssample_m3mn, " +
+                      "ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp " +
+                      " FROM ofrafertrials.trialsoilsample " +
+                      " WHERE trial_id = ?  AND ssample_code = ?", new Object[] {trialUid, sampleCode},
+              (resultSet, i) -> {
+                return buildTrialSoilSample(resultSet);
+              });
+    }
+    catch (EmptyResultDataAccessException  e) {
+      return null;
+    }
   }
 
   private TrialSoilSample buildTrialSoilSample(ResultSet resultSet) throws SQLException {

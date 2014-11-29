@@ -2,6 +2,8 @@ package org.cabi.ofra.dataload.db.impl;
 
 import org.cabi.ofra.dataload.db.IBlockSoilSampleDao;
 import org.cabi.ofra.dataload.model.BlockSoilSample;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ public class BlockSoilSampleDao extends BaseDao implements IBlockSoilSampleDao {
 
   @Override
   public boolean existsBlockSoilSampleById(String trialUid, int blockId, int sampleId) {
-    int count = jdbcTemplate.queryForObject("SELECT trial_id, block_id, ssample_id FROM ofrafertrials.blocksoilsample" +
+    int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ofrafertrials.blocksoilsample" +
             " WHERE trial_id = ? AND block_id = ? AND ssample_id = ?", Integer.class,
             trialUid, String.valueOf(blockId), sampleId);
     return count > 0;
@@ -26,15 +28,20 @@ public class BlockSoilSampleDao extends BaseDao implements IBlockSoilSampleDao {
 
   @Override
   public BlockSoilSample findBlockSoilSampleById(String trialUid, int blockId, int sampleId) {
-    return jdbcTemplate.queryForObject("SELECT trial_id, block_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, " +
-                    "ssample_ssn, ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, " +
-                    "ssample_m3mn, ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp" +
-                    " FROM ofrafertrials.blocksoilsample" +
-                    " WHERE trial_id = ? AND block_id = ? AND ssample_id = ?",
-            new Object[]{trialUid, blockId, sampleId},
-            (resultSet, i) -> {
-              return buildBlockSoilSample(resultSet);
-            });
+    try {
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, " +
+                      "ssample_ssn, ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, " +
+                      "ssample_m3mn, ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp" +
+                      " FROM ofrafertrials.blocksoilsample" +
+                      " WHERE trial_id = ? AND block_id = ? AND ssample_id = ?",
+              new Object[]{trialUid, blockId, sampleId},
+              (resultSet, i) -> {
+                return buildBlockSoilSample(resultSet);
+              });
+    }
+    catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   private BlockSoilSample buildBlockSoilSample (ResultSet resultSet) throws SQLException {
@@ -68,15 +75,20 @@ public class BlockSoilSampleDao extends BaseDao implements IBlockSoilSampleDao {
 
   @Override
   public BlockSoilSample findBlockSoilSampleByCode(String trialUid, int blockId, String sampleCode) {
-    return jdbcTemplate.queryForObject("SELECT trial_id, block_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, " +
-                    "ssample_ssn, ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, " +
-                    "ssample_m3mn, ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp" +
-                    " FROM ofrafertrials.blocksoilsample" +
-                    " WHERE trial_id = ? AND block_id = ? AND ssample_code = ?",
-            new Object[]{trialUid, blockId, sampleCode},
-            (resultSet, i) -> {
-              return buildBlockSoilSample(resultSet);
-            });
+    try {
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, ssample_id, ssample_code, ssample_cdate, ssample_trt, ssample_depth, ssample_adate, " +
+                      "ssample_ssn, ssample_ph, ssample_ec, ssample_m3ai, ssample_m3b, ssample_m3ca, ssample_m3cu, ssample_m3fe, ssample_m3k, ssample_m3mg, " +
+                      "ssample_m3mn, ssample_m3na, ssample_m3p, ssample_m3s, ssample_m3zn, ssmaple_hp" +
+                      " FROM ofrafertrials.blocksoilsample" +
+                      " WHERE trial_id = ? AND block_id = ? AND ssample_code = ?",
+              new Object[]{trialUid, blockId, sampleCode},
+              (resultSet, i) -> {
+                return buildBlockSoilSample(resultSet);
+              });
+    }
+    catch (EmptyResultDataAccessException e) {
+      return null;
+    }
   }
 
   @Override

@@ -94,6 +94,7 @@ public class BlockTemplates {
         String sampleCode = Utilities.getStringCellValue(row.get(1));
         BlockSoilSample sample = databaseService.findBlockSoilSampleByCode(pair.car(), pair.cdr(), sampleCode);
         if (sample == null) {
+          sample = new BlockSoilSample();
           sample.setTrialUniqueId(pair.car());
           sample.setBlockId(pair.cdr());
           sample.setSampleId(Utilities.extractSampleId(sampleCode));

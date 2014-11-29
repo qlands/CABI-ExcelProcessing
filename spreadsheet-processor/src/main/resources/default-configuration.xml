@@ -394,7 +394,7 @@
         </sheet>
       </sheets>
     </template>
-    <template name="plot-plant-sample-result">
+    <template name="plot-soil-sample-result">
       <sheets>
         <sheet name="Plot Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>

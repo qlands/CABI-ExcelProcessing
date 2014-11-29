@@ -64,7 +64,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
             // this means there is a valid row
             List<Cell> r = new ArrayList<>(rangeConfiguration.getWidth());
             int lastColumn = Math.max(row.getLastCellNum(), ref.getCol() + rangeConfiguration.getWidth() - 1);
-            for (int j = ref.getCol(); j < lastColumn; j++) {
+            for (int j = ref.getCol(); j <= lastColumn; j++) {
               r.add(row.getCell(j, Row.CREATE_NULL_AS_BLANK));
             }
             try {
