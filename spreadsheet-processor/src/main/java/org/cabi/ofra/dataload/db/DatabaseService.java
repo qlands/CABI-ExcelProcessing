@@ -28,6 +28,11 @@ public class DatabaseService {
   private IPlotObservationDao plotObservationDao;
   private IPlotPlantSampleDao plotPlantSampleDao;
   private IPlotSoilSampleDao plotSoilSampleDao;
+  private IHarvestCerealsDao harvestCerealsDao;
+  private IHarvestLegumesDao harvestLegumesDao;
+  private IHarvestMaizeDao harvestMaizeDao;
+  private IHarvestGrassesDao harvestGrassesDao;
+  private IHarvestCassavaDao harvestCassavaDao;
 
   public DatabaseService() {
     dataSource = new BasicDataSource();
@@ -67,6 +72,16 @@ public class DatabaseService {
     plotPlantSampleDao.setDataSource(dataSource);
     plotSoilSampleDao = new PlotSoilSampleDao();
     plotSoilSampleDao.setDataSource(dataSource);
+    harvestCerealsDao = new HarvestCerealsDao();
+    harvestCerealsDao.setDataSource(dataSource);
+    harvestLegumesDao = new HarvestLegumesDao();
+    harvestLegumesDao.setDataSource(dataSource);
+    harvestMaizeDao = new HarvestMaizeDao();
+    harvestMaizeDao.setDataSource(dataSource);
+    harvestGrassesDao = new HarvestGrassesDao();
+    harvestGrassesDao.setDataSource(dataSource);
+    harvestCassavaDao = new HarvestCassavaDao();
+    harvestCassavaDao.setDataSource(dataSource);
   }
 
   private void initializeDataSource(String propertiesFile) throws IOException {
@@ -275,6 +290,146 @@ public class DatabaseService {
     }
     else {
       plotSoilSampleDao.createPlotSoilSample(plotSoilSample);
+    }
+  }
+
+  // Harvest Legumes
+
+  public boolean existsHarvestLegumeById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    HarvestLegume harvestLegume = new HarvestLegume();
+    harvestLegume.setTrialUid(trialUid);
+    harvestLegume.setBlockId(blockId);
+    harvestLegume.setPlotId(plotId);
+    harvestLegume.setHarvestDate(harvestDate);
+    return harvestLegumesDao.existsHarvestLegume(harvestLegume);
+  }
+
+  public HarvestLegume findHarvestLegumeById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    return harvestLegumesDao.findHarvestLegumeById(trialUid, blockId, plotId, harvestDate);
+  }
+
+  public void updateHarvestLegume(HarvestLegume harvestLegume) {
+    harvestLegumesDao.updateHarvestLegume(harvestLegume);
+  }
+
+  public void createOrUpdateHarvestLegume(HarvestLegume harvestLegume) {
+    if (harvestLegumesDao.existsHarvestLegume(harvestLegume)) {
+      harvestLegumesDao.updateHarvestLegume(harvestLegume);
+    }
+    else {
+      harvestLegumesDao.createHarvestLegume(harvestLegume);
+    }
+  }
+
+  // Harvest Cereals
+
+  public boolean existsHarvestCerealById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    HarvestCereal harvestCereal = new HarvestCereal();
+    harvestCereal.setTrialUid(trialUid);
+    harvestCereal.setBlockId(blockId);
+    harvestCereal.setPlotId(plotId);
+    harvestCereal.setHarvestDate(harvestDate);
+    return harvestCerealsDao.existsHarvestCereal(harvestCereal);
+  }
+
+  public HarvestCereal findHarvestCerealById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    return harvestCerealsDao.findHarvestCerealById(trialUid, blockId, plotId, harvestDate);
+  }
+
+  public void updateHarvestCereal(HarvestCereal harvestCereal) {
+    harvestCerealsDao.updateHarvestCereal(harvestCereal);
+  }
+
+  public void createOrUpdateHarvestCereal(HarvestCereal harvestCereal) {
+    if (harvestCerealsDao.existsHarvestCereal(harvestCereal)) {
+      harvestCerealsDao.updateHarvestCereal(harvestCereal);
+    }
+    else {
+      harvestCerealsDao.createHarvestCereal(harvestCereal);
+    }
+  }
+
+  // Harvest Maize
+
+  public boolean existsHarvestMaizeById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    HarvestMaize harvestMaize = new HarvestMaize();
+    harvestMaize.setTrialUid(trialUid);
+    harvestMaize.setBlockId(blockId);
+    harvestMaize.setPlotId(plotId);
+    harvestMaize.setHarvestDate(harvestDate);
+    return harvestMaizeDao.existsHavestMaize(harvestMaize);
+  }
+
+  public HarvestMaize findHarvestMaizeById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    return harvestMaizeDao.findHarvestMaizeById(trialUid, blockId, plotId, harvestDate);
+  }
+
+  public void updateHarvestMaize(HarvestMaize harvestMaize) {
+    harvestMaizeDao.updateHarvestMaize(harvestMaize);
+  }
+
+  public void createOrUpdateHarvestMaize(HarvestMaize harvestMaize) {
+    if (harvestMaizeDao.existsHavestMaize(harvestMaize)) {
+      harvestMaizeDao.updateHarvestMaize(harvestMaize);
+    }
+    else {
+      harvestMaizeDao.createHarvestMaize(harvestMaize);
+    }
+  }
+
+  // Harvest Grasses
+
+  public boolean existsHarvestGrassById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    HarvestGrass harvestGrass = new HarvestGrass();
+    harvestGrass.setTrialUid(trialUid);
+    harvestGrass.setBlockId(blockId);
+    harvestGrass.setPlotId(plotId);
+    harvestGrass.setHarvestDate(harvestDate);
+    return harvestGrassesDao.existsHarvestGrass(harvestGrass);
+  }
+
+  public HarvestGrass findHarvestGrassById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    return harvestGrassesDao.findHarvestGrassById(trialUid, blockId, plotId, harvestDate);
+  }
+
+  public void updateHarvestGrass(HarvestGrass harvestGrass) {
+    harvestGrassesDao.updateHarvestGrass(harvestGrass);
+  }
+
+  public void createOrUpdateHarvestGrass(HarvestGrass harvestGrass) {
+    if (harvestGrassesDao.existsHarvestGrass(harvestGrass)) {
+      harvestGrassesDao.updateHarvestGrass(harvestGrass);
+    }
+    else {
+      harvestGrassesDao.createHarvestGrass(harvestGrass);
+    }
+  }
+
+  // Harvest Cassava
+
+  public boolean existsHarvestCassavaById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    HarvestCassava harvestCassava = new HarvestCassava();
+    harvestCassava.setTrialUid(trialUid);
+    harvestCassava.setBlockId(blockId);
+    harvestCassava.setPlotId(plotId);
+    harvestCassava.setHarvestDate(harvestDate);
+    return harvestCassavaDao.existsHarvestCassava(harvestCassava);
+  }
+
+  public HarvestCassava findHarvestCassavaById(String trialUid, int blockId, int plotId, Date harvestDate) {
+    return harvestCassavaDao.findHarvestCassavaById(trialUid, blockId, plotId, harvestDate);
+  }
+
+  public void updateHarvestCassava(HarvestCassava harvestCassava) {
+    harvestCassavaDao.updateHarvestCassava(harvestCassava);
+  }
+
+  public void createOrUpdateHarvestCassava(HarvestCassava harvestCassava) {
+    if (harvestCassavaDao.existsHarvestCassava(harvestCassava)) {
+      harvestCassavaDao.updateHarvestCassava(harvestCassava);
+    }
+    else {
+      harvestCassavaDao.createHarvestCassava(harvestCassava);
     }
   }
 }

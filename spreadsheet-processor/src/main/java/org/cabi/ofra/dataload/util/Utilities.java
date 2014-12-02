@@ -119,7 +119,7 @@ public class Utilities {
   }
 
   private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-  private static Date parseDate(String dateString) throws ParseException {
+  public static Date parseDate(String dateString) throws ParseException {
     return formatter.parse(dateString);
   }
 
@@ -241,7 +241,7 @@ public class Utilities {
     void consume(String segment, Matcher matcher);
   }
 
-  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d]+)[_]?([a-zA-Z0-9]*)");
+  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d]+)[_]?(.*)");
 
   /**
    * Splits a Plot UID in three elements:
