@@ -13,7 +13,7 @@ public class HarvestGrassesDao extends BaseDao implements IHarvestGrassesDao {
   @Override
   public boolean existsHarvestGrass(HarvestGrass harvestGrass) {
     int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ofrafertrials.hrvstgrasses " +
-            " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?", Integer.class,
+            " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?", Integer.class,
             harvestGrass.getTrialUid(), harvestGrass.getBlockId(), harvestGrass.getPlotId(), harvestGrass.getHarvestDate());
     return count > 0;
   }
@@ -21,10 +21,10 @@ public class HarvestGrassesDao extends BaseDao implements IHarvestGrassesDao {
   @Override
   public HarvestGrass findHarvestGrassById(String trialUid, int blockId, int plotId, Date harvestDate) {
     try {
-      return jdbcTemplate.queryForObject("SELECT plot_trial_id, plot_block_id, plot_plot_id, hrvst_date, hrvst_plantcount, hrvst_paniclecount, " +
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_paniclecount, " +
                       "hrvst_panicleweight, hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_panicledate, hrvst_stoverdryyield" +
                       " FROM ofrafertrials.hrvstgrasses" +
-                      " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?",
+                      " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
               new Object[]{trialUid, blockId, plotId, harvestDate},
               (resultSet, i) -> {
                 HarvestGrass harvestGrass = new HarvestGrass();
@@ -51,7 +51,7 @@ public class HarvestGrassesDao extends BaseDao implements IHarvestGrassesDao {
 
   @Override
   public void createHarvestGrass(HarvestGrass harvestGrass) {
-    jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstgrasses (plot_trial_id, plot_block_id, plot_plot_id, hrvst_date, hrvst_plantcount, hrvst_paniclecount, " +
+    jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstgrasses (trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_paniclecount, " +
             " hrvst_panicleweight, hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_panicledate, hrvst_stoverdryyield) " +
             " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             harvestGrass.getTrialUid(), harvestGrass.getBlockId(), harvestGrass.getPlotId(), harvestGrass.getHarvestDate(), harvestGrass.getPlantCount(),
@@ -63,7 +63,7 @@ public class HarvestGrassesDao extends BaseDao implements IHarvestGrassesDao {
   public void updateHarvestGrass(HarvestGrass harvestGrass) {
     jdbcTemplate.update("UPDATE ofrafertrials.hrvstgrasses SET hrvst_plantcount = ?, hrvst_paniclecount = ?, hrvst_panicleweight = ?, hrvst_grainyield = ?, " +
             " hrvst_stoveryield = ?, hrvst_stoversample = ?, hrvst_grainmoist = ?, hrvst_panicledate = ?, hrvst_stoverdryyield = ?" +
-            " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?",
+            " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
             harvestGrass.getPlantCount(), harvestGrass.getPanicleCount(), harvestGrass.getPanicleWeight(), harvestGrass.getGrainYield(),
             harvestGrass.getStoverYield(), harvestGrass.getStoverSample(), harvestGrass.getGrainMoisture(), harvestGrass.getPanicleDate(), harvestGrass.getStoverDryYield(),
             harvestGrass.getTrialUid(), harvestGrass.getBlockId(), harvestGrass.getPlotId(), harvestGrass.getHarvestDate());

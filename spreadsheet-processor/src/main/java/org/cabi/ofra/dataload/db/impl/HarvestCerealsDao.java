@@ -17,7 +17,7 @@ public class HarvestCerealsDao extends BaseDao implements IHarvestCerealsDao {
   @Override
   public boolean existsHarvestCereal(HarvestCereal harvestCereal) {
     int count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ofrafertrials.hrvstcereals" +
-            " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?", Integer.class,
+            " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?", Integer.class,
             harvestCereal.getTrialUid(), harvestCereal.getBlockId(), harvestCereal.getPlotId(), harvestCereal.getHarvestDate());
     return count > 0;
   }
@@ -25,10 +25,10 @@ public class HarvestCerealsDao extends BaseDao implements IHarvestCerealsDao {
   @Override
   public HarvestCereal findHarvestCerealById(String trialUid, int blockId, int plotId, Date harvestDate) {
     try {
-      return jdbcTemplate.queryForObject("SELECT plot_trial_id, plot_block_id, plot_plot_id, hrvst_date, hrvst_headweight, hrvst_grainyield, hrvst_stoveryield, " +
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, plot_id, hrvst_date, hrvst_headweight, hrvst_grainyield, hrvst_stoveryield, " +
                       " hrvst_stoversample, hrvst_bootingdate, hrvst_grainmoist, hrvst_stoverdryyield" +
                       " FROM ofrafertrials.hrvstcereals " +
-                      " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?",
+                      " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
               new Object[]{trialUid, blockId, plotId, harvestDate},
               (resultSet, i) -> {
                 HarvestCereal harvestCereal = new HarvestCereal();
@@ -53,7 +53,7 @@ public class HarvestCerealsDao extends BaseDao implements IHarvestCerealsDao {
 
   @Override
   public void createHarvestCereal(HarvestCereal harvestCereal) {
-    jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstcereals (plot_trial_id, plot_block_id, plot_plot_id, hrvst_date, hrvst_headweight, hrvst_grainyield, " +
+    jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstcereals (trial_id, block_id, plot_id, hrvst_date, hrvst_headweight, hrvst_grainyield, " +
             "hrvst_stoveryield, hrvst_stoversample, hrvst_bootingdate, hrvst_grainmoist, hrvst_stoverdryyield) " +
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             harvestCereal.getTrialUid(), harvestCereal.getBlockId(), harvestCereal.getPlotId(), harvestCereal.getHarvestDate(), harvestCereal.getHeadWeight(),
@@ -65,7 +65,7 @@ public class HarvestCerealsDao extends BaseDao implements IHarvestCerealsDao {
   public void updateHarvestCereal(HarvestCereal harvestCereal) {
     jdbcTemplate.update("UPDATE ofrafertrials.hrvstcereals SET hrvst_headweight = ?, hrvst_grainyield = ?, hrvst_stoveryield = ?, hrvst_stoversample = ?, " +
             "hrvst_bootingdate = ?, hrvst_grainmoist = ?, hrvst_stoverdryyield = ?" +
-            " WHERE plot_trial_id = ? AND plot_block_id = ? AND plot_plot_id = ? AND hrvst_date = ?",
+            " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
             harvestCereal.getHeadWeight(), harvestCereal.getGrainYield(), harvestCereal.getStoverYield(), harvestCereal.getStoverSample(),
             harvestCereal.getBootingDate(), harvestCereal.getGrainMoist(), harvestCereal.getStoverDryYield(),
             harvestCereal.getTrialUid(), harvestCereal.getBlockId(), harvestCereal.getPlotId(), harvestCereal.getHarvestDate());

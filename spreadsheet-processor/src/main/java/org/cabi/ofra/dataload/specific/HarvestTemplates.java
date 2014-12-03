@@ -269,6 +269,7 @@ public class HarvestTemplates {
       HarvestMaize harvestMaize = databaseService.findHarvestMaizeById(trialUid, blockId, plotId, harvestDate);
       if (harvestMaize != null) {
         updateHarvestMaize(context, row, eventCollector, rangeConfiguration, harvestMaize);
+        databaseService.updateHarvestMaize(harvestMaize);
       }
     }
 
