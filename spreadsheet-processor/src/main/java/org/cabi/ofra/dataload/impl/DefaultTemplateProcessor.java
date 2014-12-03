@@ -16,8 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * (c) 2014, Eduardo Quirós-Campos
@@ -25,11 +23,11 @@ import java.util.Map;
 public class DefaultTemplateProcessor implements ITemplateProcessor {
   private static Logger logger = LoggerFactory.getLogger(DefaultTemplateProcessor.class);
 
-  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user) throws ProcessorException {
+  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg) throws ProcessorException {
     try {
       DatabaseService databaseService = new DatabaseService();
       databaseService.initialize(databasePropertiesFile);
-      IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user);
+      IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user, ckanorg);
       for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
         Sheet sheet = workbook.getSheetAt(s);
         SheetConfiguration sheetConfiguration = configuration.getSheet(sheet.getSheetName());

@@ -2,10 +2,6 @@ package org.cabi.ofra.dataload.db.impl;
 
 import org.cabi.ofra.dataload.db.ITrialDao;
 import org.cabi.ofra.dataload.model.Trial;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
-
-import java.sql.SQLException;
 
 /**
  * (c) 2014, Eduardo Quirós-Campos
@@ -19,51 +15,52 @@ public class TrialDao extends BaseDao implements ITrialDao {
 
   @Override
   public void createTrial(Trial trial) {
-    jdbcTemplate.update("INSERT INTO ofrafertrials.trial(trial_id, trial_cnty, trial_region, trial_district, trial_village, trial_frmocentre, trial_agzone, trial_lrserch, trial_fldassi, trial_fldassm, trial_crop1," +
-                        "                  trial_crop2, trial_crop3, trial_lati, trial_long, legacy_user) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            trial.getTrialUniqueId(), trial.getCountry(), trial.getRegionCode(), trial.getDistrictCode(), trial.getVillageCode(), trial.getFarmerOrCentre(),
-            null, trial.getLeadResearcher(), trial.getFieldAssistantName(), trial.getFieldAssistantTelephone(), trial.getCropOne(),
-            trial.getCropTwo(), null, trial.getLat(), trial.getLng(), trial.getUser());
+    jdbcTemplate.update("INSERT INTO ofrafertrials.trial(trial_id,trial_cnty,trial_region,trial_district,trial_village,trial_frmocentre,trial_lrserch,trial_fldassi,trial_fldassm,trial_crop1," +
+                        "                  trial_crop2,trial_crop3,trial_lati,trial_long,trial_user,trial_year,trial_season,trial_date,trial_ckanorg) " +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            trial.getTrialUniqueId(), trial.getCountry(), trial.getRegionName(), trial.getDistrictName(), trial.getVillageName(), trial.getFarmerOrCentre(),
+            trial.getLeadResearcher(), trial.getFieldAssistantName(), trial.getFieldAssistantTelephone(), trial.getCropOne(),
+            trial.getCropTwo(), trial.getCropThree(), trial.getLat(), trial.getLng(), trial.getUser(), trial.getYear(),trial.getSeason(),trial.getTrialDate(),trial.getckanorg());
   }
 
   @Override
   public Trial getTrialById(String trialUniqueId) {
-    try {
-      return jdbcTemplate.queryForObject("select trial_id, trial_cnty, trial_region, trial_district, trial_village, trial_frmocentre, trial_agzone, trial_lrserch, trial_fldassi, trial_fldassm, trial_crop1," +
-                                         "       trial_crop2, trial_crop3, trial_lati, trial_long, legacy_user" +
-                                         "  from ofrafertrials.trial where trial_id = ?", new Object[] {trialUniqueId},
-              (resultSet, i) -> {
-                Trial t = new Trial();
-                t.setTrialUniqueId(resultSet.getString(1));
-                t.setCountry(resultSet.getString(2));
-                t.setRegionCode(resultSet.getString(3));
-                t.setDistrictCode(resultSet.getString(4));
-                t.setVillageCode(resultSet.getString(5));
-                t.setFarmerOrCentre(resultSet.getString(6));
-                t.setLeadResearcher(resultSet.getString(8));
-                t.setFieldAssistantName(resultSet.getString(9));
-                t.setFieldAssistantTelephone(resultSet.getString(10));
-                t.setCropOne(resultSet.getString(11));
-                t.setCropTwo(resultSet.getString(12));
-                t.setLat(resultSet.getFloat(14));
-                t.setLng(resultSet.getFloat(15));
-                t.setUser(resultSet.getString(16));
-                return t;
-              });
-    }
-    catch (EmptyResultDataAccessException e) {
-      return null;
-    }
+    return jdbcTemplate.queryForObject("select trial_id, trial_cnty, trial_region, trial_district, trial_village, trial_frmocentre, trial_agzone, trial_lrserch, trial_fldassi, trial_fldassm, trial_crop1," +
+                                       "       trial_crop2, trial_crop3, trial_lati, trial_long, legacy_user" +
+                                       "  from ofrafertrials.trial where trial_id = ?", new Object[] {trialUniqueId},
+            (resultSet, i) -> {
+              Trial t = new Trial();
+              t.setTrialUniqueId(resultSet.getString(1));
+              t.setCountry(resultSet.getString(2));
+              t.setRegionName(resultSet.getString(3));
+              t.setDistrictName(resultSet.getString(4));
+              t.setVillageName(resultSet.getString(5));
+              t.setFarmerOrCentre(resultSet.getString(6));
+              t.setLeadResearcher(resultSet.getString(7));
+              t.setFieldAssistantName(resultSet.getString(8));
+              t.setFieldAssistantTelephone(resultSet.getString(9));
+              t.setCropOne(resultSet.getString(10));
+              t.setCropTwo(resultSet.getString(11));
+              t.setCropThree(resultSet.getString(12));
+              t.setLat(resultSet.getFloat(13));
+              t.setLng(resultSet.getFloat(14));
+              t.setUser(resultSet.getString(15));
+              t.setYear(resultSet.getInt(16));
+              t.setSeason(resultSet.getString(17));
+              t.setTrialDate(resultSet.getString(18));
+              t.setckanorg(resultSet.getString(19));
+              return t;
+            });
   }
 
   @Override
   public void updateTrial(Trial trial) {
-    jdbcTemplate.update("UPDATE ofrafertrials.trial SET trial_cnty = ?, trial_region = ?, trial_district = ?, trial_village = ?, trial_frmocentre = ?, trial_lrserch = ?," +
-                        "                 trial_fldassi = ?, trial_fldassm = ?, trial_crop1 = ?, trial_crop2 = ?, trial_lati = ?, trial_long = ?, " +
-                        "                 legacy_user = ? WHERE trial_id = ?",
-            trial.getCountry(), trial.getRegionCode(), trial.getDistrictCode(), trial.getVillageCode(), trial.getFarmerOrCentre(), trial.getLeadResearcher(),
-            trial.getFieldAssistantName(), trial.getFieldAssistantTelephone(), trial.getCropOne(), trial.getCropTwo(), trial.getLat(), trial.getLng(), trial.getUser(),
-            trial.getTrialUniqueId());
+    //We modify just variables that are not part of the key. Otherwise we might need to create the key again.
+    jdbcTemplate.update("UPDATE ofrafertrials.trial SET trial_frmocentre = ? ,trial_lrserch = ? ," +
+                        "trial_fldassi = ? ,trial_fldassm = ? ,trial_lati = ? ,trial_long = ? ," +
+                        "trial_date = ? WHERE trial_id = ?",
+            trial.getFarmerOrCentre(), trial.getLeadResearcher(),
+            trial.getFieldAssistantName(), trial.getFieldAssistantTelephone(), trial.getLat(), trial.getLng(),
+            trial.getTrialDate(),trial.getTrialUniqueId());
   }
 }

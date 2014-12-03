@@ -110,6 +110,11 @@
                 <arg name="variableName" value="cropTwo"/>
               </args>
             </cell>
+            <cell processorReference="valset" location="B11">
+              <args>
+                <arg name="variableName" value="cropThree"/>
+              </args>
+            </cell>
             <cell processorReference="valset" location="B12">
               <args>
                 <arg name="variableName" value="year"/>
