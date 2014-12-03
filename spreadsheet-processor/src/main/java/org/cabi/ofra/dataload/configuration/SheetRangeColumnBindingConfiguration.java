@@ -9,7 +9,7 @@ import java.util.Map;
 public class SheetRangeColumnBindingConfiguration {
   private int column;
   private String processorReference;
-  private Map<String, String> arguments;
+  private Map<String, String> arguments = new HashMap<>();
   private SheetRangeConfiguration parentRangeConfiguration;
 
   public SheetRangeColumnBindingConfiguration() {
@@ -36,9 +36,6 @@ public class SheetRangeColumnBindingConfiguration {
   }
 
   public void addArgument(String name, String value) {
-    if (arguments == null) {
-      arguments = new HashMap<String, String>();
-    }
     arguments.put(name, value);
   }
 

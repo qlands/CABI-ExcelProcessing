@@ -17,17 +17,20 @@ public class Trial {
   private String districtCode;
   private String villageName;
   private String villageCode;
-  private String cropOne;
-  private String cropTwo;
-  private int year;
-  private String season;
   private String farmerOrCentre;
   private String leadResearcher;
   private String fieldAssistantName;
   private String fieldAssistantTelephone;
+  private String cropOne;
+  private String cropTwo;
+  private String cropThree;
   private double lat;
   private double lng;
   private String user;
+  private int year;
+  private String season;
+  private String ckanorg;
+  private String trialDate;
 
   public String getTrialUniqueId() {
     return trialUniqueId;
@@ -109,6 +112,14 @@ public class Trial {
     this.cropTwo = cropTwo;
   }
 
+  public String getCropThree() {
+        return cropThree;
+    }
+
+  public void setCropThree(String cropThree) {
+        this.cropThree = cropThree;
+    }
+
   public int getYear() {
     return year;
   }
@@ -180,6 +191,14 @@ public class Trial {
   public void setUser(String user) {
     this.user = user;
   }
+
+  public String getckanorg() {return ckanorg;}
+
+  public void setckanorg(String ckanorg) {this.ckanorg = ckanorg;}
+
+  public String getTrialDate() {return trialDate;}
+
+  public void setTrialDate(String trialDate) {this.trialDate = trialDate;}
 
   public Pair<Boolean, String> validate() {
     boolean ret = true;

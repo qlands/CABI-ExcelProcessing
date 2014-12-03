@@ -12,12 +12,21 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * (c) 2014, Eduardo Quirós-Campos
+ * Class that provides multiple general use routines for template processing, including:
+ * Cell range validation
+ * Cell value conversion
+ * Cell date parsing
+ * Trial validation
+ * Block validation
+ * Plot validation
+ * Plant/Soil Sample ID validation
  */
 public class Utilities {
   private static Logger logger = LoggerFactory.getLogger(Utilities.class);
@@ -110,7 +119,7 @@ public class Utilities {
   }
 
   private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-  private static Date parseDate(String dateString) throws ParseException {
+  public static Date parseDate(String dateString) throws ParseException {
     return formatter.parse(dateString);
   }
 
@@ -131,6 +140,21 @@ public class Utilities {
     }
   }
 
+  public static boolean getBooleanCellValue(Cell cell) {
+    switch(getCellType(cell)) {
+      case Cell.CELL_TYPE_BLANK:
+        return false;
+      case Cell.CELL_TYPE_NUMERIC:
+        return cell.getNumericCellValue() != 0.0;
+      case Cell.CELL_TYPE_STRING:
+        return "y".equals(cell.getStringCellValue().toLowerCase());
+      case Cell.CELL_TYPE_BOOLEAN:
+        return cell.getBooleanCellValue();
+      default:
+        return false;
+    }
+  }
+
   public static int getIntegerCellValue(Cell cell) {
     if (cell.getCellType() == Cell.CELL_TYPE_BLANK) {
       return Integer.MIN_VALUE;
@@ -147,7 +171,7 @@ public class Utilities {
       return Integer.valueOf(v.toString());
     }
   }
-  private static Pattern uidPattern = Pattern.compile("([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([\\d]{4})([a-zA-Z0-9]{2})[_]?([a-zA-Z0-9]*)");
+  private static Pattern uidPattern = Pattern.compile("([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([a-zA-Z0-9]+)_([\\d]{4})([a-zA-Z0-9]{2})[_]?(.*)");
 
   public static Matcher matchUid(String uid) {
     Matcher m = uidPattern.matcher(uid);
@@ -174,11 +198,82 @@ public class Utilities {
     return p.car();
   }
 
+  public static Triplet<String, Integer, Integer> validatePlot(DatabaseService databaseService, String plotUid) throws ProcessorException {
+    Triplet<String, Integer, Integer> triplet = splitPlotUid(plotUid);
+    if (triplet == null) {
+      throw new ProcessorException(String.format("Plot UID '%s' is malformed", plotUid));
+    }
+    if (!databaseService.existsPlotById(triplet.getFirst(), triplet.getSecond(), triplet.getThird())) {
+      throw new ProcessorException(String.format("Referenced plot '%s' does not exist in the database", plotUid));
+    }
+    return triplet;
+  }
+
+  public static Pair<String, Integer> validateBlock(DatabaseService databaseService, String blockUid) throws ProcessorException {
+    Pair<String, Integer> pair = splitBlockUid(blockUid);
+    if (pair == null) {
+      throw new ProcessorException(String.format("Block UID '%s' is malformed", blockUid));
+    }
+    if (!databaseService.existsBlockById(pair.car(), pair.cdr())) {
+      throw new ProcessorException(String.format("Referenced block '%s' does not exist in the database", blockUid));
+    }
+    return pair;
+  }
+
+
   public static void validateTrial(DatabaseService databaseService, String trialUid) throws ProcessorException {
     if (!databaseService.existsTrialByUniqueId(trialUid)) {
       throw new ProcessorException(String.format("Referenced trial '%s' does not exist in database", trialUid));
     }
   }
+
+  /**
+   * Functional interface to allow consumption of a UID segment using split methods. The idea is that once
+   * a valid UID portion is identified (trial, block, plot), the rest of the identifier (after a '_')
+   * can be consumed by processing logic without being explicitly returned by the split method
+   */
+  public static interface IUidSegmentConsumer {
+    /**
+     * Allows consumption of a UID segment
+     * @param segment the string segment after a valid UID and the following '_'
+     * @param matcher the regex matcher used to split the post-UID segment
+     */
+    void consume(String segment, Matcher matcher);
+  }
+
+  private static Pattern blockPlotPattern = Pattern.compile("B([\\d]+)_([\\d]+)[_]?(.*)");
+
+  /**
+   * Splits a Plot UID in three elements:
+   * - A {@code String} with the Trial UID
+   * - A {@code Integer} with the Block ID
+   * - A {@code Integer} with the Plot ID
+   *
+   * The method also allows consumption of the post-UID segment via a {@link org.cabi.ofra.dataload.util.Utilities.IUidSegmentConsumer}
+   * @param plotUid A string identifying a Plot UID
+   * @param consumer The {@link org.cabi.ofra.dataload.util.Utilities.IUidSegmentConsumer} for consumption of the post-UID segment
+   * @return a {@link org.cabi.ofra.dataload.util.Triplet} with the component elements of the Plot UID
+   */
+  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid, IUidSegmentConsumer consumer) {
+    Pair<String, String> base = splitUid(plotUid);
+    if (base == null) return null;
+    Matcher matcher = blockPlotPattern.matcher(base.cdr());
+    if (matcher.matches()) {
+      Triplet<String, Integer, Integer> ret = new Triplet<>(base.car(), Integer.valueOf(matcher.group(1)), Integer.valueOf(matcher.group(2)));
+      if (matcher.groupCount() > 2 && consumer != null) {
+        consumer.consume(matcher.group(3), matcher);
+      }
+      return ret;
+    }
+    else {
+      return null;
+    }
+  }
+
+  public static Triplet<String, Integer, Integer> splitPlotUid(String plotUid) {
+    return splitPlotUid(plotUid, null);
+  }
+
 
   /**
    * Validates that a block UID is valid in the system
@@ -187,8 +282,23 @@ public class Utilities {
    * @throws ProcessorException When the referenced blockUid is not valid, either syntactically or because it references
    * an block that does not exist
    */
-  private static Pattern blockPattern = Pattern.compile("B([\\d]+)");
+  private static Pattern blockPattern = Pattern.compile("B([\\d]+)[_]?(.*)");
 
+  public static Pair<String, Integer> splitBlockUid(String blockUid, IUidSegmentConsumer consumer) throws ProcessorException {
+    Pair<String, String> pair = splitUid(blockUid);
+    if (pair == null) return null;
+    Matcher matcher = blockPattern.matcher(pair.cdr());
+    if (matcher.matches()) {
+      Pair<String, Integer> ret = new Pair<>(pair.car(), Integer.valueOf(matcher.group(1)));
+      if (matcher.groupCount() > 1 && consumer != null) {
+        consumer.consume(matcher.group(2), matcher);
+      }
+      return ret;
+    }
+    else {
+      return null;
+    }
+  }
   /**
    * Splits a Block UID into a Trial UID and an integer block number. Internally separates the block reference (in the form B###), and
    * uses the number for return
@@ -197,30 +307,21 @@ public class Utilities {
    * @throws ProcessorException
    */
   public static Pair<String, Integer> splitBlockUid(String blockUid) throws ProcessorException {
-    Pair<String, String> pair = splitUid(blockUid);
-    Matcher matcher = blockPattern.matcher(pair.cdr());
-    if (matcher.matches()) {
-      return new Pair<>(pair.car(), Integer.valueOf(matcher.group(1)));
-    }
-    else {
-      throw new ProcessorException(String.format("Unique identifier %s references block %s, which is an invalid identifier", blockUid, pair.cdr()));
-    }
+    return splitBlockUid(blockUid, null);
   }
 
-  public static int validateAndExtractBlock(DatabaseService databaseService, String blockUid) throws ProcessorException {
-    Pair<String, String> p = splitUid(blockUid);
-    if (p == null) {
-      throw new ProcessorException(String.format("Unique identifier %s is invalid for block reference", blockUid));
+  public static Pattern sampleCodePattern = Pattern.compile("[\\D]+([\\d]+)");
+
+  public static int extractSampleId(String sampleIdStr) {
+    Matcher matcher = sampleCodePattern.matcher(sampleIdStr);
+    if (!matcher.matches()) {
+      // if the regex does not match the imput stream, we just assume the string can be converted to integer directly
+      return Integer.valueOf(sampleIdStr);
     }
-    // first, validate the trial
-    validateTrial(databaseService, p.car());
-    Matcher matcher = blockPattern.matcher(p.cdr());
-    if (matcher.matches()) {
+    else {
       return Integer.valueOf(matcher.group(1));
     }
-    else {
-      throw new ProcessorException(String.format("Unique identifier %s references block %s, which is an invalid identifier", blockUid, p.cdr()));
-    }
   }
 
+  public static Pattern BlockSoilSamplePattern = Pattern.compile("B([\\d]+)_BSS([\\d]+)");
 }

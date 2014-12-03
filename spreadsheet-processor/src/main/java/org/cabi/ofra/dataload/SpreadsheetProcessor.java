@@ -28,13 +28,15 @@ public class SpreadsheetProcessor {
   private String databasePropertiesFile;
   private static Logger logger = LoggerFactory.getLogger(SpreadsheetProcessor.class);
   private String user;
+  private String ckanorg;
 
-  public SpreadsheetProcessor(Reader configuration, InputStream input, String templateName, String databasePropertiesFile, String user) {
+  public SpreadsheetProcessor(Reader configuration, InputStream input, String templateName, String databasePropertiesFile, String user, String ckanorg) {
     this.configuration = configuration;
     this.input = input;
     this.templateName = templateName;
     this.databasePropertiesFile = databasePropertiesFile;
     this.user = user;
+    this.ckanorg = ckanorg;
   }
 
   public void process() throws ProcessorException {
@@ -46,7 +48,7 @@ public class SpreadsheetProcessor {
         if (templateConfiguration != null) {
           ITemplateProcessor templateProcessor = createTemplateProcessor(templateName);
           IEventCollector eventCollector = new DefaultEventCollector();
-          templateProcessor.processTemplate(workbook, templateConfiguration, eventCollector, databasePropertiesFile, user);
+          templateProcessor.processTemplate(workbook, templateConfiguration, eventCollector, databasePropertiesFile, user, ckanorg);
         }
         else {
           throw new ProcessorException(String.format("Error: template '%1$s' does not exist in configuration file. Unable to process spreadsheet", templateName));

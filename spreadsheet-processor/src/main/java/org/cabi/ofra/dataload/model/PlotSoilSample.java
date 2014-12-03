@@ -3,16 +3,18 @@ package org.cabi.ofra.dataload.model;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/14/2014.
+ * Created by equiros on 11/28/2014.
  */
-public class SoilSample {
-  private String trialUniqueId;
+public class PlotSoilSample {
+  private String trialUid;
+  private int blockId;
+  private int plotId;
   private int sampleId;
-  private String code;
-  private Date cdate;
+  private String sampleCode;
+  private Date collectionDate;
   private String trt;
   private String depth;
-  private Date adate;
+  private Date analysisDate;
   private String ssn;
   private double ph;
   private double ec;
@@ -30,12 +32,28 @@ public class SoilSample {
   private double m3zn;
   private double hp;
 
-  public String getTrialUniqueId() {
-    return trialUniqueId;
+  public String getTrialUid() {
+    return trialUid;
   }
 
-  public void setTrialUniqueId(String trialUniqueId) {
-    this.trialUniqueId = trialUniqueId;
+  public void setTrialUid(String trialUid) {
+    this.trialUid = trialUid;
+  }
+
+  public int getBlockId() {
+    return blockId;
+  }
+
+  public void setBlockId(int blockId) {
+    this.blockId = blockId;
+  }
+
+  public int getPlotId() {
+    return plotId;
+  }
+
+  public void setPlotId(int plotId) {
+    this.plotId = plotId;
   }
 
   public int getSampleId() {
@@ -46,20 +64,20 @@ public class SoilSample {
     this.sampleId = sampleId;
   }
 
-  public String getCode() {
-    return code;
+  public String getSampleCode() {
+    return sampleCode;
   }
 
-  public void setCode(String code) {
-    this.code = code;
+  public void setSampleCode(String sampleCode) {
+    this.sampleCode = sampleCode;
   }
 
-  public Date getCdate() {
-    return cdate;
+  public Date getCollectionDate() {
+    return collectionDate;
   }
 
-  public void setCdate(Date cdate) {
-    this.cdate = cdate;
+  public void setCollectionDate(Date collectionDate) {
+    this.collectionDate = collectionDate;
   }
 
   public String getTrt() {
@@ -78,12 +96,12 @@ public class SoilSample {
     this.depth = depth;
   }
 
-  public Date getAdate() {
-    return adate;
+  public Date getAnalysisDate() {
+    return analysisDate;
   }
 
-  public void setAdate(Date adate) {
-    this.adate = adate;
+  public void setAnalysisDate(Date analysisDate) {
+    this.analysisDate = analysisDate;
   }
 
   public String getSsn() {

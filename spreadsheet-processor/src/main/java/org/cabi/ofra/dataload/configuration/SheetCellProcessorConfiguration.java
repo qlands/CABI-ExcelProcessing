@@ -10,7 +10,7 @@ import java.util.Map;
 public class SheetCellProcessorConfiguration {
   private String processorReference;
   private String location;
-  private Map<String, String> arguments;
+  private Map<String, String> arguments = new HashMap<>();
   private SheetConfiguration parentSheet;
 
   public SheetCellProcessorConfiguration() {
@@ -33,9 +33,6 @@ public class SheetCellProcessorConfiguration {
   }
 
   public void addArgument(String name, String value) {
-    if (arguments == null) {
-      arguments = new HashMap<String, String>();
-    }
     arguments.put(name, value);
   }
 

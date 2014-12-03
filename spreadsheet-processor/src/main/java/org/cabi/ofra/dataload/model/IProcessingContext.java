@@ -15,6 +15,7 @@ public interface IProcessingContext {
   public Map<String, IRangeProcessor> getRangeProcessors();
   public DatabaseService getDatabaseService();
   public String getUser();
+  public String getckanorg();
   public default <T extends Serializable> T getv(String name) {
     return (T) get(name);
   }
