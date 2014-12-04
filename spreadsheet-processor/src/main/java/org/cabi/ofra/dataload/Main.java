@@ -8,9 +8,25 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.Properties;
 
+/**
+ * Main entry-point class for the Spreadsheet Processor
+ * Expects the following parameters from the command line:
+ * - input: the input Excel file (required)
+ * - config: the configuration file. If not specified, name 'default-configuration.xml' is assumed, and the file is searched for in
+ *           the current directory, or else it will be load as resource from the classpath (JAR file)
+ * - database: database configuration file. Assumes database.properties as default, and search logic is the same as config file
+ * - template: template name in the configuration file that will be used to process the input (required)
+ * - user: user name to be used for the creation of trial data
+ * - ckanorg: CKAN organization tame to be used for the creation of trial data
+ */
 public class Main {
+  // SLF4J Logger
   private static Logger logger = LoggerFactory.getLogger(Main.class);
 
+  /**
+   * Creates the program options for command line parsing
+   * @return The {@link org.apache.commons.cli.Options} cto be used for command line parsing
+   */
   private static Options createOptions() {
     Options options = new Options();
     options.addOption(OptionBuilder.withArgName("file").hasArg().withDescription("use the given file as input for processing").isRequired().create("input"));
@@ -22,6 +38,12 @@ public class Main {
     return options;
   }
 
+  /**
+   * Loads the program.properties file which includes the program name and version. This is for internal use
+   * during the creation of the final assembly by Maven
+   * @return A {@link java.util.Properties} with the program name and version properties
+   * @throws IOException
+   */
   private static Properties loadProgramProperties() throws IOException {
     Properties properties = new Properties();
     properties.load(Main.class.getClassLoader().getResourceAsStream("program.properties"));
@@ -31,6 +53,10 @@ public class Main {
   private static CommandLineParser parser = new GnuParser();
   private static HelpFormatter helpFormatter = new HelpFormatter();
 
+  /**
+   * Main entry point
+   * @param args The command line arguments to be processed using Commons CLI
+   */
   public static void main(String[] args) {
     Options options = createOptions();
     try {
@@ -47,14 +73,22 @@ public class Main {
     }
   }
 
+  /**
+   * Main program driver
+   * @param commandLine The {@link org.apache.commons.cli.CommandLine} created from the actual command line arguments
+   * @throws IOException
+   * @throws ProcessorException
+   */
   private static void start(CommandLine commandLine) throws IOException, ProcessorException {
     Reader configReader;
+    // check presence of optional command line arguments
     if (commandLine.hasOption("config")) {
       configReader = new BufferedReader(new FileReader(commandLine.getOptionValue("config")));
     }
     else {
       configReader = new BufferedReader(new InputStreamReader(Main.class.getClassLoader().getResourceAsStream("default-configuration.xml")));
     }
+    // create the main processing object (SpreadSheetProcessor)
     SpreadsheetProcessor processor = new SpreadsheetProcessor(configReader, new BufferedInputStream(new FileInputStream(commandLine.getOptionValue("input"))),
             commandLine.getOptionValue("template"), commandLine.getOptionValue("database"), commandLine.getOptionValue("user"), commandLine.getOptionValue("ckanorg"));
     processor.process();

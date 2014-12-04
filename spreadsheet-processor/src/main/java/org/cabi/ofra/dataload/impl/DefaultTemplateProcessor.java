@@ -18,15 +18,17 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Default implementation of a Template Processor
  */
 public class DefaultTemplateProcessor implements ITemplateProcessor {
   private static Logger logger = LoggerFactory.getLogger(DefaultTemplateProcessor.class);
 
   public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg) throws ProcessorException {
     try {
+      // first, initialize the database service, potentially from an externalized properties file
       DatabaseService databaseService = new DatabaseService();
       databaseService.initialize(databasePropertiesFile);
+      // Create the default processing context
       IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user, ckanorg);
       for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
         Sheet sheet = workbook.getSheetAt(s);

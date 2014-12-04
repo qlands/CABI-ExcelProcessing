@@ -61,7 +61,7 @@ public class DefaultProcessingContext implements IProcessingContext {
   }
 
   @Override
-  public String getckanorg() {
+  public String getCkanOrganization() {
       return ckanorg;
   }
 
