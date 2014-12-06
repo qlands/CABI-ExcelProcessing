@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.BlockObservation;
 
 /**
- * Created by equiros on 11/19/2014.
+ * DAO object to manipulate block observation data
  */
 public interface IBlockObservationDao extends IDao {
   public BlockObservation findBlockObservationById(String trialUid, int blockNumber, int observationId);

@@ -5,7 +5,7 @@ import org.cabi.ofra.dataload.model.HarvestCereal;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/29/2014.
+ * DAO object to manipulate cereal harvest data
  */
 public interface IHarvestCerealsDao extends IDao {
   public boolean existsHarvestCereal(HarvestCereal harvestCereal);

@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.TrialSoilSample;
 
 /**
- * Created by equiros on 11/14/2014.
+ * DAO Object to manipulate trial soil sample data
  */
 public interface ITrialSoilSampleDao extends IDao {
   public boolean existsTrialSoilSample(TrialSoilSample sample);

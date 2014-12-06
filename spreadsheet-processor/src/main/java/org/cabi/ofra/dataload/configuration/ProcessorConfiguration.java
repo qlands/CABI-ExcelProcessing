@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Configuration object for the Spreadsheet Processor (main processing object)
  */
 public class ProcessorConfiguration {
+  // Registered Cell Processors
   private Map<String, ICellProcessor> cellProcessors;
+  // Registered Range Processors
   private Map<String, IRangeProcessor> rangeProcessors;
+  // Registered templates
   private Map<String, TemplateConfiguration> templates;
 
   public ProcessorConfiguration() {

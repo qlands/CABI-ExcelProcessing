@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.PlotSoilSample;
 
 /**
- * Created by equiros on 11/28/2014.
+ * DAO object to manipulate plot soil sample data
  */
 public interface IPlotSoilSampleDao extends IDao {
   public boolean existsPlotSoilSample(PlotSoilSample sample);

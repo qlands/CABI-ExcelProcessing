@@ -14,7 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by equiros on 11/24/2014.
+ * Validates a Soil Sample associated to a block.
+ * Block data is validated using logic inherited from {@link org.cabi.ofra.dataload.impl.BlockValidator}
+ * Supports the following arguments:
+ * - sampleNotFoundMessage: message to issue when the sample is not found. Supports 4 placeholders for Trial ID, Block ID, and Sample ID (in this order)
  */
 public class BlockSoilSampleValidator extends BlockValidator {
   private static final String KEY_SAMPLENOTFOUND = "sampleNotFoundMessage";

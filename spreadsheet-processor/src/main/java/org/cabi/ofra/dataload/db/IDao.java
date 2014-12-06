@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import javax.sql.DataSource;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Base DAO interface. Allows setting the reference {@link javax.sql.DataSource}
  */
 public interface IDao {
   public void setDataSource(DataSource dataSource);

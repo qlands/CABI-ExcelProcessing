@@ -5,7 +5,7 @@ import org.cabi.ofra.dataload.model.HarvestMaize;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/30/2014.
+ * DAO object to manipulate maize harvest data
  */
 public interface IHarvestMaizeDao extends IDao {
   public boolean existsHavestMaize(HarvestMaize harvestMaize);

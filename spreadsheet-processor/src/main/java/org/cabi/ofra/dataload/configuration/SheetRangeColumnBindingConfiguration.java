@@ -4,12 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-* (c) 2014, Eduardo Quirós-Campos
+ * Configuration object for column bindings associated with a range. Ranges can have column-bound configuration information
+ * for cell processors that will be called on each cell for the configured range-column binding
 */
 public class SheetRangeColumnBindingConfiguration {
+  // column within the range to which the binding is associated
   private int column;
+  // cell processor associated with the column
   private String processorReference;
+  // optional arguments to call the cell processor
   private Map<String, String> arguments = new HashMap<>();
+  // parent range configuration
   private SheetRangeConfiguration parentRangeConfiguration;
 
   public SheetRangeColumnBindingConfiguration() {

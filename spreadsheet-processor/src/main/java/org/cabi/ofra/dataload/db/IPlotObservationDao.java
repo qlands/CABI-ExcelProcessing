@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.PlotObservation;
 
 /**
- * Created by equiros on 11/26/2014.
+ * DAO object to manipulate plot observation data
  */
 public interface IPlotObservationDao extends IDao {
   public boolean existsObservationById(String trialUid, int blockId, int plotId, int observationId);

@@ -4,7 +4,10 @@ import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.model.TrialSoilSample;
 
 /**
- * Created by equiros on 11/28/2014.
+ * Validates a trial soil sample. This validator extends {@link org.cabi.ofra.dataload.impl.TrialValidator} to check if a
+ * trial soil sample is found or not in the database.
+ * Supports the following arguments (in addition to those in {@link org.cabi.ofra.dataload.impl.TrialValidator}):
+ *  + sampleNotFoundMessage: issued when the trial soil sample ID is not found in the database. Placeholders: Trial ID, Soil Sample ID
  */
 public class TrialSoilSampleValidator extends TrialValidator {
   private static final String KEY_SAMPLENOTFOUND = "sampleNotFoundMessage";

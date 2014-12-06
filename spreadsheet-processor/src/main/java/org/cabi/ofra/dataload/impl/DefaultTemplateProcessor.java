@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * Default implementation of a Template Processor
+ * Default implementation of a Template Processor. Provides the basic logic for creating a new DatabaseService, initialize it,
+ * create a {@link org.cabi.ofra.dataload.model.IProcessingContext} via the default implementation, and iterate through all
+ * the sheets in a workbook.
+ * For each sheet, tries to locate a {@link org.cabi.ofra.dataload.configuration.TemplateConfiguration} which configures
+ * processing logic, and calls the appropriate {@link org.cabi.ofra.dataload.model.ISheetProcessor} implementation class
  */
 public class DefaultTemplateProcessor implements ITemplateProcessor {
   private static Logger logger = LoggerFactory.getLogger(DefaultTemplateProcessor.class);
@@ -30,12 +34,16 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
       databaseService.initialize(databasePropertiesFile);
       // Create the default processing context
       IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user, ckanorg);
+      // For each sheet
       for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
         Sheet sheet = workbook.getSheetAt(s);
+        // Check if there is a configured SheetConfiguration object
         SheetConfiguration sheetConfiguration = configuration.getSheet(sheet.getSheetName());
         if (sheetConfiguration != null) {
           try {
+            // try to create the Sheet Processor
             ISheetProcessor sheetProcessor = createSheetProcessor(sheetConfiguration.getImplementationClass());
+            // and call it to process the sheet
             sheetProcessor.processSheet(sheet, sheetConfiguration, eventCollector, context);
           }
           catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ProcessorException e) {

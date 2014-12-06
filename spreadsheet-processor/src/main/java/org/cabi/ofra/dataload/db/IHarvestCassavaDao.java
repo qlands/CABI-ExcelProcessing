@@ -5,7 +5,7 @@ import org.cabi.ofra.dataload.model.HarvestCassava;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/30/2014.
+ * DAO object to manipulate cassava harvest data
  */
 public interface IHarvestCassavaDao extends IDao {
   public boolean existsHarvestCassava(HarvestCassava harvestCassava);

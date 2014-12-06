@@ -67,9 +67,11 @@ public class Main {
     }
     catch (ParseException e) {
       helpFormatter.printHelp("ssprocessor", options);
+      System.exit(1);
     }
     catch (Exception e) {
       logger.error("Error processing spreadsheet", e);
+      System.exit(1);
     }
   }
 

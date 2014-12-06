@@ -5,7 +5,7 @@ import org.cabi.ofra.dataload.model.HarvestLegume;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/29/2014.
+ * DAO object to manipulate legumes harvest data
  */
 public interface IHarvestLegumesDao extends IDao {
   public boolean existsHarvestLegume(HarvestLegume harvestLegume);
