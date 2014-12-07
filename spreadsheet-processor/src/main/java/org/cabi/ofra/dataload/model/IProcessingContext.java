@@ -16,6 +16,7 @@ public interface IProcessingContext {
   public DatabaseService getDatabaseService();
   public String getUser();
   public String getckanorg();
+  public String getTrialPublic();
   public default <T extends Serializable> T getv(String name) {
     return (T) get(name);
   }

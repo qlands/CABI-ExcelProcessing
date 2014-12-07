@@ -30,6 +30,7 @@ public class Trial {
   private int year;
   private String season;
   private String ckanorg;
+  private String trialPublic;
   private String trialDate;
 
   public String getTrialUniqueId() {
@@ -195,6 +196,10 @@ public class Trial {
   public String getckanorg() {return ckanorg;}
 
   public void setckanorg(String ckanorg) {this.ckanorg = ckanorg;}
+
+  public String getTrialPublic() {return trialPublic;}
+
+  public void setTrialPublic(String trialPublic) {this.trialPublic = trialPublic;}
 
   public String getTrialDate() {return trialDate;}
 

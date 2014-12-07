@@ -20,14 +20,16 @@ public class DefaultProcessingContext implements IProcessingContext {
   private DatabaseService databaseService;
   private String user;
   private String ckanorg;
+  private String trialPublic;
 
-  public DefaultProcessingContext(Map<String, ICellProcessor> cellProcessors, Map<String, IRangeProcessor> rangeProcessors, DatabaseService databaseService, String user, String ckanorg) {
+  public DefaultProcessingContext(Map<String, ICellProcessor> cellProcessors, Map<String, IRangeProcessor> rangeProcessors, DatabaseService databaseService, String user, String ckanorg, String trialPublic) {
     this.cellProcessors = cellProcessors;
     this.rangeProcessors = rangeProcessors;
     this.databaseService = databaseService;
     context = new HashMap<>();
     this.user = user;
     this.ckanorg = ckanorg;
+    this.trialPublic = trialPublic;
   }
 
   @Override
@@ -64,5 +66,8 @@ public class DefaultProcessingContext implements IProcessingContext {
   public String getckanorg() {
       return ckanorg;
   }
+
+  @Override
+  public String getTrialPublic() {return trialPublic;}
 
 }

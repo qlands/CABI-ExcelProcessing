@@ -23,11 +23,11 @@ import java.io.IOException;
 public class DefaultTemplateProcessor implements ITemplateProcessor {
   private static Logger logger = LoggerFactory.getLogger(DefaultTemplateProcessor.class);
 
-  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg) throws ProcessorException {
+  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg, String trialPublic) throws ProcessorException {
     try {
       DatabaseService databaseService = new DatabaseService();
       databaseService.initialize(databasePropertiesFile);
-      IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user, ckanorg);
+      IProcessingContext context = new DefaultProcessingContext(configuration.getProcessorConfiguration().getCellProcessors(), configuration.getProcessorConfiguration().getRangeProcessors(), databaseService, user, ckanorg, trialPublic);
       for (int s = 0; s < workbook.getNumberOfSheets(); s++) {
         Sheet sheet = workbook.getSheetAt(s);
         SheetConfiguration sheetConfiguration = configuration.getSheet(sheet.getSheetName());
