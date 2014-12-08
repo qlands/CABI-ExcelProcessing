@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Utility class to load the configuration information from an XML, via a {@link org.apache.commons.digester.Digester} object
  */
 public class ConfigurationHelper {
   public static ProcessorConfiguration loadConfiguration(Reader reader) throws IOException, SAXException {

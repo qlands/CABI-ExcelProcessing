@@ -3,14 +3,20 @@ package org.cabi.ofra.dataload.configuration;
 import java.util.*;
 
 /**
-* (c) 2014, Eduardo Quirós-Campos
+* Object to hold cofiguration information for a range within a {@link org.cabi.ofra.dataload.configuration.SheetConfiguration}
 */
 public class SheetRangeConfiguration {
+  // range processor reference
   String processorReference;
+  // named cell (e.g. A0) on which the range starts
   String start;
+  // range width
   int width;
+  // optional arguments for range processor call
   Map<String, String> arguments;
+  // optional column bindings
   Map<Integer, SheetRangeColumnBindingConfiguration> columnBindings;
+  // indicates whether all columns in the range are required
   boolean requireAll = false;
 
   public SheetRangeConfiguration() {

@@ -12,7 +12,11 @@ import org.cabi.ofra.dataload.util.Utilities;
 import java.util.regex.Matcher;
 
 /**
- * Created by equiros on 11/13/2014.
+ * Cell processor implementation which provides validation for Trial UIDs. Validates if a cell value represents a valid
+ * Trial UID, using the database for validation.
+ * Supports the following arguments:
+ * - malformedUidMessage: issued when the UID being validated is not well formed. Supports one placeholder for cell value
+ * - trialMessage: issued when the trial referenced by the UID is not found. Placeholders: Cell Value, Trial UID
  */
 public class TrialValidator extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_TRIALMESSAGE = "trialMessage";

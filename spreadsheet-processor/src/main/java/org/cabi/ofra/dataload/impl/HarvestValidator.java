@@ -8,7 +8,15 @@ import java.text.ParseException;
 import java.util.Date;
 
 /**
- * Created by equiros on 12/2/2014.
+ * Cell Processor which provides Harvest UID validation. It extends Plot Validator to further validate the harvest date.
+ * Selection of the appropriate table depending on the harvest type is done via an argument.
+ * Supports the following arguments (in addition to those in {@link org.cabi.ofra.dataload.impl.PlotValidator}:
+ * - harvestType: identifies the harvest type for validation. This argument is required. It can be one of the following:
+ *    + legume
+ *    + cereal
+ *    + grass
+ *    + maize
+ *    + cassava
  */
 public class HarvestValidator extends PlotValidator implements ICellProcessor {
   private static final String KEY_HARVESTTYPE = "harvestType";

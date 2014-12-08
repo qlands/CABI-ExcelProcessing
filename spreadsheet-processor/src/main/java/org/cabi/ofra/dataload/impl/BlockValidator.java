@@ -10,7 +10,13 @@ import org.cabi.ofra.dataload.util.Pair;
 import org.cabi.ofra.dataload.util.Utilities;
 
 /**
- * Created by equiros on 11/19/2014.
+ * Class for validating block UIDs. Validation happens against the database.
+ * This class also supports extensibility to allow a post-block identifier to contain character data that can be
+ * processed.
+ * This class, as well as inheritors, supports the following arguments:
+ * - malformedUidMessage: issued when the UID being validated is not well formed. Supports one placeholder for cell value
+ * - trialMessage: issued when the trial referenced by the UID is not found. Placeholders: Cell Value, Trial UID
+ * - blockMessage: issued when the block referenced by the UID is not found. Placeholders: Cell Value, Trial UID, Block ID
  */
 public class BlockValidator extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_MALFORMEDUIDMESSAGE = "malformedUidMessage";
@@ -36,6 +42,14 @@ public class BlockValidator extends AbstractProcessor implements ICellProcessor 
     processPostBlockSegment(pair.car(), pair.cdr(), postBlockSegment.toString());
   }
 
+  /**
+   * This method allows processing of a string segment after the Block ID. The idea is to provide an extensibility point
+   * for block-based identifiers (such as soil/plant samples)
+   * @param trialUid The Trial portion of the identifier
+   * @param blockId The Block portion of the identifier
+   * @param segment The post-block string segment
+   * @throws ProcessorException
+   */
   protected void processPostBlockSegment(String trialUid, int blockId, String segment) throws ProcessorException {
 
   }

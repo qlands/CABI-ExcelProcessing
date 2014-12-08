@@ -42,27 +42,22 @@ public class Utilities {
 
   private static InputStream getPropertiesStream(String propertiesFile) throws FileNotFoundException {
     if (propertiesFile != null && new File(propertiesFile).exists()) {
-      logger.info("Attempting to load database properties from file '%s'");
       return new FileInputStream(propertiesFile);
     }
     if (new File("database.properties").exists()) {
-      logger.info("Attempting to load database properties from 'database.properties' in current directory");
       return new FileInputStream("database.properties");
     }
-    logger.info("Attempting to load database properties from JAR resource 'database.properties'");
     return Utilities.class.getClassLoader().getResourceAsStream("database.properties");
   }
 
   public static Properties loadDatabaseProperties(String propertiesFile) throws IOException {
     InputStream is = getPropertiesStream(propertiesFile);
     if (is != null) {
-      logger.info("Database properties successfully loaded!");
       Properties properties = new Properties();
       properties.load(is);
       return properties;
     }
     else {
-      logger.error("Unable to load database properties");
       return null;
     }
   }

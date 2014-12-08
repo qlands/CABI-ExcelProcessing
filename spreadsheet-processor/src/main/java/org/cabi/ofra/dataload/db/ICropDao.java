@@ -1,7 +1,7 @@
 package org.cabi.ofra.dataload.db;
 
 /**
- * Created by equiros on 11/9/2014.
+ * DAO object to retrieve crop data
  */
 public interface ICropDao extends IDao {
   public boolean existsCrop(String cropId);

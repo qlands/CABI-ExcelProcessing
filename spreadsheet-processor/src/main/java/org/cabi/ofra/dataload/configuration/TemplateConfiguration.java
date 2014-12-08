@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Configuration holder for template processing
  */
 public class TemplateConfiguration {
+  // name of the template
   private String name;
+  // Collection of Sheet objects inside the template
   private Map<String, SheetConfiguration> sheets;
+  // Parent Processor Configuration object
   private ProcessorConfiguration processorConfiguration;
 
   public TemplateConfiguration() {

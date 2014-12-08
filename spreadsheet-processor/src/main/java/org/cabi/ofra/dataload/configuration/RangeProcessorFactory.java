@@ -6,7 +6,8 @@ import org.cabi.ofra.dataload.model.IRangeProcessor;
 import org.xml.sax.Attributes;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Framework class used to create {@link org.cabi.ofra.dataload.model.IRangeProcessor} instances during the configuration
+ * loading process
  */
 public class RangeProcessorFactory implements ObjectCreationFactory {
   private Digester digester;

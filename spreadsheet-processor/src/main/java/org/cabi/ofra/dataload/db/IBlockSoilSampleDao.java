@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.BlockSoilSample;
 
 /**
- * Created by equiros on 11/23/2014.
+ * DAO object to manipulate block soil sample data
  */
 public interface IBlockSoilSampleDao extends IDao {
   public boolean existsBlockSoilSample(BlockSoilSample sample);

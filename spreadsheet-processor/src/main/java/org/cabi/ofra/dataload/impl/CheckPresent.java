@@ -10,7 +10,9 @@ import org.cabi.ofra.dataload.util.Utilities;
 import java.io.Serializable;
 
 /**
- * Created by equiros on 07/11/14.
+ * Checks if the cell has a value; otherwise, issues a message
+ * This processor supports the following arguments:
+ * - message: the message to issue if the cell is blank
  */
 public class CheckPresent extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_MESSAGE = "message";
