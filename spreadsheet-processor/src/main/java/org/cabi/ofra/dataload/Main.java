@@ -70,7 +70,8 @@ public class Main {
       helpFormatter.printHelp("ssprocessor", options);
       System.exit(1);
     }
-    catch (Exception e) {
+    catch (Exception e)
+    {
       logger.error("Error processing spreadsheet: " + e.getMessage());
       System.exit(1);
     }

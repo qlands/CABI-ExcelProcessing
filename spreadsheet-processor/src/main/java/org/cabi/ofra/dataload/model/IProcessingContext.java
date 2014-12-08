@@ -49,6 +49,8 @@ public interface IProcessingContext {
    * @return The configured user name
    */
   public String getUser();
+  
+  public String getTrialPublic();
 
   /**
    * Obtains the configured CKAN organization name

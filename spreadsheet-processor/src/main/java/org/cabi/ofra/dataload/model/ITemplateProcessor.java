@@ -13,7 +13,7 @@ import java.util.List;
  * to be provided by the SpreadSheet Processor via configuration
  */
 public interface ITemplateProcessor {
-  /**
+/**
    * Processes a given template
    * @param workbook The {@link org.apache.poi.ss.usermodel.Workbook} instance that corresponds to the
    * @param configuration The {@link org.cabi.ofra.dataload.configuration.TemplateConfiguration} instance corresponding to the configured template mapping
@@ -24,5 +24,5 @@ public interface ITemplateProcessor {
    * @return The resulting {@link org.cabi.ofra.dataload.model.IProcessingContext} after processing the template
    * @throws ProcessorException
    */
-  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg) throws ProcessorException;
+  public IProcessingContext processTemplate(Workbook workbook, TemplateConfiguration configuration, IEventCollector eventCollector, String databasePropertiesFile, String user, String ckanorg, String trialPublic) throws ProcessorException;
 }
