@@ -43,8 +43,10 @@ public class Main {
     catch (ParseException e) {
       helpFormatter.printHelp("ssprocessor", options);
     }
-    catch (Exception e) {
-      logger.error("Error processing spreadsheet", e);
+    catch (Exception e)
+    {
+      logger.error("Error processing spreadsheet: " + e.getMessage());
+      System.exit(1);
     }
   }
 
