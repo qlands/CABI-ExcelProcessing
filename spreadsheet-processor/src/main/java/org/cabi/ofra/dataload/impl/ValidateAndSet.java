@@ -33,8 +33,7 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
     if (cell == null) {
       String msg = "Cell is null. Processing aborted on ValidateAndSet processor";
       eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-      logger.warn(msg);
-      return;
+      throw new ProcessorException(msg);
     }
     if (!arguments.containsKey(KEY_VARIABLENAME)) {
       throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
@@ -45,7 +44,6 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
         String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
                 variableName);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        logger.warn(msg);
       }
     }
     Serializable val = Utilities.getCellValue(cell);

@@ -61,7 +61,7 @@ public class Main {
     Options options = createOptions();
     try {
       Properties programProperties = loadProgramProperties();
-      logger.info(String.format("%1$s - Version %2$s", programProperties.getProperty("program.name"), programProperties.getProperty("program.version")));
+      //logger.info(String.format("%1$s - Version %2$s", programProperties.getProperty("program.name"), programProperties.getProperty("program.version")));
       CommandLine commandLine = parser.parse(options, args);
       start(commandLine);
     }
@@ -70,7 +70,7 @@ public class Main {
       System.exit(1);
     }
     catch (Exception e) {
-      logger.error("Error processing spreadsheet", e);
+      logger.error("Error processing spreadsheet: " + e.getMessage());
       System.exit(1);
     }
   }

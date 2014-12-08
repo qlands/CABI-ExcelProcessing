@@ -64,7 +64,7 @@ public abstract class AbstractRangeProcessor extends AbstractProcessor implement
       processor.processCell(context, cell, eventCollector);
     }
     else {
-      logger.warn(String.format("Processor reference %s not found for binding on column number %d", binding.getProcessorReference(), columnIndex));
+      throw new ProcessorException(String.format("Processor reference %s not found for binding on column number %d", binding.getProcessorReference(), columnIndex));
     }
   }
 }

@@ -84,8 +84,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
           // if not, issue a message and skip to the next configured range
           String msg = String.format("Warning: Range processor '%s' references cell %s as range start, which is invalid in sheet '%s'", rangeProcessor.getName(), ref.toString(), sheet.getSheetName());
           eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-          logger.warn(msg);
-          continue;
+          throw new ProcessorException(msg);
         }
         // process the range
         for (int i = ref.getRow(); i <= sheet.getLastRowNum(); i++) {
@@ -108,8 +107,8 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
             }
             catch (Exception e) {
               String msg = String.format("Error processing row #%d on RangeProcessor '%s'", i, rangeProcessor.getName());
-              logger.warn(msg, e);
               eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withException(e).withType(Event.EVENT_TYPE.WARNING).build());
+              throw new ProcessorException(msg, e);
             }
           }
         }
@@ -117,7 +116,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
       else {
         String msg = String.format("Warning: range processor reference %s not found while processing sheet '%s'", rangeConfiguration.getProcessorReference(), sheet.getSheetName());
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        logger.warn(msg);
+        throw new ProcessorException(msg);
       }
     }
   }
@@ -162,8 +161,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
           // if not, issue an error
           String msg = String.format("Warning: Cell processor '%s' references cell %s, which is invalid in sheet '%s'", cellProcessor.getName(), ref.toString(), sheet.getSheetName());
           eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-          logger.warn(msg);
-          continue;
+          throw new ProcessorException(msg);
         }
         // get the row object from POI
         Row row = sheet.getRow(ref.getRow());
@@ -179,7 +177,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
       else {
         String msg = String.format("Warning: processor reference %s not found while processing sheet '%s'", cellProcessorConfiguration.getProcessorReference(), sheet.getSheetName());
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        logger.warn(msg);
+        throw new ProcessorException(msg);
       }
     }
   }

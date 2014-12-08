@@ -90,12 +90,10 @@ public class TrialDefinitionTemplate {
       }
       if (mainTrialId == null) {
         String msg = "Warning: Trial Unique ID was not captured in the main 'Trial' sheet";
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
       else if (!mainTrialId.equals(blockTrialUID)) {
         String msg = String.format("Warning: UID captured in Trial sheet (%s) is different from the one present in the Blocks sheet (%s)", mainTrialId, blockTrialUID);
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
     }
@@ -136,12 +134,10 @@ public class TrialDefinitionTemplate {
       }
       if (mainTrialId == null) {
         String msg = "Warning: Trial Unique ID was not captured in the main 'Trial' sheet";
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
       else if (!mainTrialId.equals(blockTrialUID)) {
         String msg = String.format("Warning: UID captured in Trial sheet (%s) is different from the one present in the Plots sheet (%s)", mainTrialId, blockTrialUID);
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
     }
