@@ -5,7 +5,10 @@ import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.model.PlotPlantSample;
 
 /**
- * Created by equiros on 11/27/2014.
+ * Validates a plot plant sample. This validator extends {@link org.cabi.ofra.dataload.impl.PlotValidator} to check if a
+ * plot plant sample is found or not in the database.
+ * Supports the following arguments (in addition to those in {@link org.cabi.ofra.dataload.impl.PlotValidator}):
+ *  + sampleNotFoundMessage: issued when the plot plant sample ID is not found in the database. Placeholders: Trial ID, Block ID, Plot ID, Plant Sample ID
  */
 public class PlotPlantSampleValidator extends PlotValidator {
   private final String KEY_SAMPLENOTFOUND = "sampleNotFoundMessage";

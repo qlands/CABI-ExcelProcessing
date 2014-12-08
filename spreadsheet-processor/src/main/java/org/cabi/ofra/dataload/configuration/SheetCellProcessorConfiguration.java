@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
-* (c) 2014, Eduardo Quirós-Campos
+* Object to hold configuration for {@link org.cabi.ofra.dataload.model.ICellProcessor} instances associated with a Sheet
 */
 public class SheetCellProcessorConfiguration {
   private String processorReference;

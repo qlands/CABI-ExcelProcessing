@@ -7,7 +7,10 @@ import org.cabi.ofra.dataload.event.IEventCollector;
 import org.cabi.ofra.dataload.model.IProcessingContext;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Base class for creating Sheet Procesors. Provides empty methods for all abstract methods from
+ * {@link org.cabi.ofra.dataload.impl.AbstractSheetProcessor}
+ * This class can also serve as main Sheet Processor for templates where only range processing
+ * is required.
  */
 public class BaseSheetProcessor extends AbstractSheetProcessor {
   @Override

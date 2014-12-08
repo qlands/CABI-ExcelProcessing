@@ -13,7 +13,15 @@ import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Cell processor that validates that the contents of a cell is not blank, potentially checks this content against
+ * a regular expression, and sets a variable value in the current processing context, for further use down the
+ * template processing chain
+ * This validator accepts the following arguments:
+ * + regex: optional regular expression to validate the cell value. If the argument is present, the regex is applied against
+ *          the string value of the cell contents. If the value of the cell does not match against the regular expression,
+ *          the variable name (next argument) will not be set
+ * + variableName: name of the variable to set if the content of the cell is non blank, and if matches against the regex
+ * + toString: boolean to determine if the value to store in the variable will be the {@code toString} value of the cell
  */
 public class ValidateAndSet extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_REGEX = "regex";
@@ -25,8 +33,7 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
     if (cell == null) {
       String msg = "Cell is null. Processing aborted on ValidateAndSet processor";
       eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-      logger.warn(msg);
-      return;
+      throw new ProcessorException(msg);
     }
     if (!arguments.containsKey(KEY_VARIABLENAME)) {
       throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
@@ -37,7 +44,6 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
         String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
                 variableName);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        logger.warn(msg);
       }
     }
     Serializable val = Utilities.getCellValue(cell);

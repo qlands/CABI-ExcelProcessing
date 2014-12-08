@@ -14,7 +14,6 @@ import org.cabi.ofra.dataload.impl.BaseSheetProcessor;
 import org.cabi.ofra.dataload.model.*;
 import org.cabi.ofra.dataload.util.Utilities;
 
-import javax.rmi.CORBA.Util;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,7 +59,7 @@ public class TrialDefinitionTemplate {
       t.setYear(year.intValue());
       t.setSeason(context.getv("season"));
       t.setUser(context.getUser());
-      t.setckanorg(context.getckanorg());
+      t.setckanorg(context.getCkanOrganization());
       String trialdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       t.setTrialDate(trialdate);
       return t;
@@ -91,12 +90,10 @@ public class TrialDefinitionTemplate {
       }
       if (mainTrialId == null) {
         String msg = "Warning: Trial Unique ID was not captured in the main 'Trial' sheet";
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
       else if (!mainTrialId.equals(blockTrialUID)) {
         String msg = String.format("Warning: UID captured in Trial sheet (%s) is different from the one present in the Blocks sheet (%s)", mainTrialId, blockTrialUID);
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
     }
@@ -137,12 +134,10 @@ public class TrialDefinitionTemplate {
       }
       if (mainTrialId == null) {
         String msg = "Warning: Trial Unique ID was not captured in the main 'Trial' sheet";
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
       else if (!mainTrialId.equals(blockTrialUID)) {
         String msg = String.format("Warning: UID captured in Trial sheet (%s) is different from the one present in the Plots sheet (%s)", mainTrialId, blockTrialUID);
-        logger.warn(msg);
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       }
     }

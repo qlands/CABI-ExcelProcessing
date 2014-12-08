@@ -3,14 +3,20 @@ package org.cabi.ofra.dataload.configuration;
 import java.util.*;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Object to hold configuration for a {@link org.apache.poi.ss.usermodel.Sheet} during the processing run.
  */
 public class SheetConfiguration {
+  // name of the sheet
   private String name;
+  // cell processors associated with the sheet
   private List<SheetCellProcessorConfiguration> cellProcessorConfigurations;
+  // ranges configured for the sheet
   private List<SheetRangeConfiguration> rangeConfigurations;
+  // indicator of whether the sheet is required for processing or not
   private boolean required;
+  // implementation class of the ISheetProcessor
   private String implementationClass;
+  // parent template configuration
   private TemplateConfiguration parentTemplate;
 
   public SheetConfiguration() {

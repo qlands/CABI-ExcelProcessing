@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.PlotPlantSample;
 
 /**
- * Created by equiros on 11/26/2014.
+ * DAO object to manipulate plot plant sample data
  */
 public interface IPlotPlantSampleDao extends IDao {
   public boolean existsPlotPlantSampleById(String trialUid, int blockId, int plotId, int sampleId);

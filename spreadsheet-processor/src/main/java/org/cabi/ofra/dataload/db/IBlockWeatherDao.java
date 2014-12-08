@@ -5,7 +5,7 @@ import org.cabi.ofra.dataload.model.BlockWeather;
 import java.util.Date;
 
 /**
- * Created by equiros on 11/24/2014.
+ * DAO object to manipulate block weather data
  */
 public interface IBlockWeatherDao extends IDao {
   public boolean existsBlockWeatherById(String trialUid, int blockId, Date collectionDate);

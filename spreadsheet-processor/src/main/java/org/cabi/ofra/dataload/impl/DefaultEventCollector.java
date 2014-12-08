@@ -11,7 +11,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Default implementation of the {@link org.cabi.ofra.dataload.event.IEventCollector} interface.
+ * Provides a backing store for the event map, and the list of events
  */
 public class DefaultEventCollector implements IEventCollector {
   private Map<String, Event> eventMap;

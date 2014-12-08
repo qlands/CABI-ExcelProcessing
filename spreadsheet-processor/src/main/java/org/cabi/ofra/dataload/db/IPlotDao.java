@@ -3,7 +3,7 @@ package org.cabi.ofra.dataload.db;
 import org.cabi.ofra.dataload.model.Plot;
 
 /**
- * Created by equiros on 11/9/2014.
+ * DAO object to manipulate plot data
  */
 public interface IPlotDao extends IDao {
     public boolean existsPlot(Plot plot);

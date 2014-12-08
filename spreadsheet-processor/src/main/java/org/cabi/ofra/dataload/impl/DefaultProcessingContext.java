@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Default implementation of the {@link org.cabi.ofra.dataload.model.IProcessingContext}
  */
 public class DefaultProcessingContext implements IProcessingContext {
   private Map<String, Serializable> context;
@@ -61,7 +61,7 @@ public class DefaultProcessingContext implements IProcessingContext {
   }
 
   @Override
-  public String getckanorg() {
+  public String getCkanOrganization() {
       return ckanorg;
   }
 

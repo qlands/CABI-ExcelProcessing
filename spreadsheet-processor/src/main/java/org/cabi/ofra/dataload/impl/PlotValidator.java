@@ -13,7 +13,13 @@ import javax.rmi.CORBA.Util;
 import java.util.regex.Matcher;
 
 /**
- * Created by equiros on 11/26/2014.
+ * Cell processor implementation which provides validation for Plot UIDs. Validates if a cell value represents a valid
+ * Plot UID, using the database for validation.
+ * Supports the following arguments:
+ * - malformedUidMessage: issued when the UID being validated is not well formed. Supports one placeholder for cell value
+ * - trialMessage: issued when the trial referenced by the UID is not found. Placeholders: Cell Value, Trial UID
+ * - blockMessage: issued when the block referenced by the UID is not found. Placeholders: Cell Value, Trial UID, Block ID
+ * - plotMessage: issued when the plot referenced by the UID is not found. Placeholders: Cell Value, Trial UID, Block UID, Plot UID
  */
 public class PlotValidator extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_MALFORMEDUIDMESSAGE = "malformedUidMessage";
@@ -21,6 +27,8 @@ public class PlotValidator extends AbstractProcessor implements ICellProcessor {
   private static final String KEY_BLOCKMESSAGE = "blockMessage";
   private static final String KEY_PLOTMESSAGE = "plotMessage";
   protected DatabaseService databaseService;
+
+
   @Override
   public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
     databaseService = context.getDatabaseService();

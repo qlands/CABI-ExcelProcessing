@@ -10,7 +10,9 @@ import java.util.Date;
 import java.util.Properties;
 
 /**
- * (c) 2014, Eduardo Quirós-Campos
+ * Provides access to the database layer, providing multiple database-related operations for the business logic layer
+ * Acts a facade to isolate the business layer from the underlying implementation of operations that require
+ * database access
  */
 public class DatabaseService {
   private BasicDataSource dataSource;
