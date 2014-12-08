@@ -35,6 +35,7 @@ public class Main {
     options.addOption(OptionBuilder.withArgName("template").hasArg().withDescription("process input file using the given template").isRequired().create("template"));
     options.addOption(OptionBuilder.withArgName("username").hasArg().withDescription("user the given user in all database operations").isRequired().create("user"));
     options.addOption(OptionBuilder.withArgName("ckanorg").hasArg().withDescription("Organization the a trial or legacy data belong to").isRequired().create("ckanorg"));
+    options.addOption(OptionBuilder.withArgName("trialpublic").hasArg().withDescription("Whether the trial/legacy data is public or no. 1=True, 0=False").isRequired().create("trialpublic"));
     return options;
   }
 
@@ -92,7 +93,7 @@ public class Main {
     }
     // create the main processing object (SpreadSheetProcessor)
     SpreadsheetProcessor processor = new SpreadsheetProcessor(configReader, new BufferedInputStream(new FileInputStream(commandLine.getOptionValue("input"))),
-            commandLine.getOptionValue("template"), commandLine.getOptionValue("database"), commandLine.getOptionValue("user"), commandLine.getOptionValue("ckanorg"));
+            commandLine.getOptionValue("template"), commandLine.getOptionValue("database"), commandLine.getOptionValue("user"), commandLine.getOptionValue("ckanorg"),commandLine.getOptionValue("trialpublic"));
     processor.process();
   }
 }

@@ -103,6 +103,7 @@ public class DatabaseService {
   public void createOrUpdateTrial(Trial t) {
     if (!trialDao.existsTrial(t.getTrialUniqueId())) {
       trialDao.createTrial(t);
+      System.out.println("{}");
     }
     else {
       trialDao.updateTrial(t);
