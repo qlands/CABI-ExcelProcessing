@@ -20,21 +20,21 @@ import java.util.Map;
  */
 public abstract class AbstractRangeProcessor extends AbstractProcessor implements IRangeProcessor {
   @Override
-  public void processRow(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
-    int i = 0;
+  public void processRow(IProcessingContext context, List<Cell> row, int rowIndex, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+    int columnIndex = 0;
     Map<Integer, SheetRangeColumnBindingConfiguration> bindings = rangeConfiguration.getColumnBindings();
     for (Cell cell : row) {
       // validates that for 'requireAll' ranges, there are no blank cells
       if (Utilities.isBlank(cell) && rangeConfiguration.isRequireAll()) {
-        throw new ProcessorException(String.format("Cell at position %d is null in range ", i));
+        throw new ProcessorException(String.format("Cell at position %d is null in range ", columnIndex));
       }
       // obtains the associated column binding for the column (index based)
-      SheetRangeColumnBindingConfiguration binding = bindings.get(i);
+      SheetRangeColumnBindingConfiguration binding = bindings.get(columnIndex);
       if (binding != null) {
         // if found, processes the binding and calls the associated processor
-        processBinding(context, binding, cell, i, eventCollector);
+        processBinding(context, binding, cell, rowIndex, columnIndex, eventCollector);
       }
-      i++;
+      columnIndex++;
     }
     process(context, row, eventCollector, rangeConfiguration);
   }
@@ -50,7 +50,7 @@ public abstract class AbstractRangeProcessor extends AbstractProcessor implement
   protected abstract void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException;
 
   // Processes the column binding, resetting the processor, setting the arguments and calling the appropriate method
-  private void processBinding(IProcessingContext context, SheetRangeColumnBindingConfiguration binding, Cell cell, int columnIndex, IEventCollector eventCollector) throws ProcessorException {
+  private void processBinding(IProcessingContext context, SheetRangeColumnBindingConfiguration binding, Cell cell, int rowIndex, int columnIndex, IEventCollector eventCollector) throws ProcessorException {
     // obtains the associated Cell Processor
     ICellProcessor processor = context.getCellProcessors().get(binding.getProcessorReference());
     if (processor != null) {
@@ -61,7 +61,12 @@ public abstract class AbstractRangeProcessor extends AbstractProcessor implement
         processor.setArgument(e.getKey(), e.getValue());
       }
       // and call the method to process the cell
-      processor.processCell(context, new CellReference(cell.getRowIndex(), cell.getColumnIndex()), cell, eventCollector);
+      try {
+        processor.processCell(context, new CellReference(cell.getRowIndex(), cell.getColumnIndex()), cell, eventCollector);
+      }
+      catch (Exception e) {
+        throw new ProcessorException(String.format("Check cell '%s': %s", new CellReference(rowIndex, columnIndex).formatAsString(), e.getMessage()));
+      }
     }
     else {
       throw new ProcessorException(String.format("Processor reference %s not found for binding on column number %d", binding.getProcessorReference(), columnIndex));

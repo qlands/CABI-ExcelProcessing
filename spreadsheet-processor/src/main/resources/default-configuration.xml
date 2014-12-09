@@ -11,6 +11,7 @@
     <cell-processor name="plotPlantSampleValidator" class="org.cabi.ofra.dataload.impl.PlotPlantSampleValidator"/>
     <cell-processor name="plotSoilSampleValidator" class="org.cabi.ofra.dataload.impl.PlotSoilSampleValidator"/>
     <cell-processor name="harvestValidator" class="org.cabi.ofra.dataload.impl.HarvestValidator"/>
+    <cell-processor name="cropValidator" class="org.cabi.ofra.dataload.impl.CropValidator"/>
   </cell-processors>
   <range-processors>
     <!-- Trial Processors -->
@@ -236,9 +237,22 @@
                     <arg name="message" value="Potassium value for plot must be specified in 'Plots' sheet"/>
                   </args>
                 </column-binding>
-                <column-binding column="11" processorReference="checkPresent">
+                <column-binding column="11" processorReference="cropValidator">
                   <args>
-                    <arg name="message" value="Crop One for plot must be specified in 'Plots' sheet"/>
+                    <arg name="absentMessage" value="Crop One for plot must be specified in 'Plots' sheet"/>
+                    <arg name="validationMessage" value="Crop One with code '%s' is not valid"/>
+                  </args>
+                </column-binding>
+                <column-binding column="12" processorReference="cropValidator">
+                  <args>
+                    <arg name="required" value="false"/>
+                    <arg name="validationMessage" value="Crop Two with code '%s' is not valid"/>
+                  </args>
+                </column-binding>
+                <column-binding column="13" processorReference="cropValidator">
+                  <args>
+                    <arg name="required" value="false"/>
+                    <arg name="validationMessage" value="Crop Three with code '%s' is not valid"/>
                   </args>
                 </column-binding>
               </column-bindings>

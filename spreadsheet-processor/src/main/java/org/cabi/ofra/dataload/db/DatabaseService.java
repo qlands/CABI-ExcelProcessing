@@ -1,11 +1,13 @@
 package org.cabi.ofra.dataload.db;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.db.impl.*;
 import org.cabi.ofra.dataload.model.*;
 import org.cabi.ofra.dataload.util.Utilities;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -38,6 +40,7 @@ public class DatabaseService {
 
   public DatabaseService() {
     dataSource = new BasicDataSource();
+    dataSource.setDefaultAutoCommit(false);
   }
 
   public void initialize(String propertiesFile) throws IOException {
@@ -92,6 +95,16 @@ public class DatabaseService {
     dataSource.setUrl(props.getProperty("database.url"));
     dataSource.setUsername(props.getProperty("database.username"));
     dataSource.setPassword(props.getProperty("database.password"));
+  }
+
+  // Transactional methods
+
+  public void commit() throws SQLException {
+    dataSource.getConnection().commit();
+  }
+
+  public void rollback() throws SQLException {
+    dataSource.getConnection().rollback();
   }
 
   // Trials

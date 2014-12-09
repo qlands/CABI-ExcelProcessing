@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Default implementation of a Template Processor. Provides the basic logic for creating a new DatabaseService, initialize it,
@@ -44,7 +45,8 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
             // and call it to process the sheet
             sheetProcessor.processSheet(sheet, sheetConfiguration, eventCollector, context);
           }
-          catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ProcessorException e) {
+          catch (Exception e) {
+            databaseService.rollback();
             throw new ProcessorException(String.format("Error while processing sheet '%s' : %s", sheet.getSheetName(), e.getMessage()));
           }
         }
@@ -54,9 +56,10 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
           throw new ProcessorException(msg);
         }
       }
+      databaseService.commit();
       return context;
     }
-    catch (IOException e) {
+    catch (IOException |SQLException e) {
       throw new ProcessorException(e);
     }
   }

@@ -38,7 +38,7 @@ public class DummyRangeProcessor implements IRangeProcessor {
   }
 
   @Override
-  public void processRow(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+  public void processRow(IProcessingContext context, List<Cell> row, int rowIndex, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
 
   }
 }

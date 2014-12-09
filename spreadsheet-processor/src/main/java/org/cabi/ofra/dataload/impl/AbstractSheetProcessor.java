@@ -103,12 +103,12 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
             }
             // and call the processor
             try {
-              rangeProcessor.processRow(context, r, eventCollector, rangeConfiguration);
+              rangeProcessor.processRow(context, r, i, eventCollector, rangeConfiguration);
             }
             catch (Exception e) {
-              String msg = String.format("Error processing row #%d on RangeProcessor '%s'", i, rangeProcessor.getName());
+              String msg = String.format("Error processing row #%d: %s", i, e.getMessage());
               eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withException(e).withType(Event.EVENT_TYPE.WARNING).build());
-              throw new ProcessorException(msg, e);
+              throw new ProcessorException(msg);
             }
           }
         }
