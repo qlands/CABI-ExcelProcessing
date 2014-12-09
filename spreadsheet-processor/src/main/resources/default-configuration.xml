@@ -108,11 +108,13 @@
             <cell processorReference="valset" location="B10">
               <args>
                 <arg name="variableName" value="cropTwo"/>
+                <arg name="required" value="false"/>
               </args>
             </cell>
             <cell processorReference="valset" location="B11">
               <args>
                 <arg name="variableName" value="cropThree"/>
+                <arg name="required" value="false"/>
               </args>
             </cell>
             <cell processorReference="valset" location="B12">

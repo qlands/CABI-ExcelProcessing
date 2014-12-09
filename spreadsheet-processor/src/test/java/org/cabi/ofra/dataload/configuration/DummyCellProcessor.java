@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.configuration;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.event.IEventCollector;
@@ -36,7 +37,7 @@ public class DummyCellProcessor implements ICellProcessor {
   }
 
   @Override
-  public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
+  public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
 
   }
 }

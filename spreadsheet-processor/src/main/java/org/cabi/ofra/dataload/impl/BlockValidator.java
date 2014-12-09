@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.impl;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.db.DatabaseService;
@@ -25,7 +26,7 @@ public class BlockValidator extends AbstractProcessor implements ICellProcessor 
   protected DatabaseService databaseService;
 
   @Override
-  public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
+  public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
     databaseService = context.getDatabaseService();
     String blockUid = Utilities.getStringCellValue(cell);
     StringBuffer postBlockSegment = new StringBuffer();

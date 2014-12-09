@@ -45,7 +45,7 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
             sheetProcessor.processSheet(sheet, sheetConfiguration, eventCollector, context);
           }
           catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ProcessorException e) {
-            throw new ProcessorException(String.format("Error while processing sheet '%1$s'", sheet.getSheetName()), e);
+            throw new ProcessorException(String.format("Error while processing sheet '%s' : %s", sheet.getSheetName(), e.getMessage()));
           }
         }
         else {

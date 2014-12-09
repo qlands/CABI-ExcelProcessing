@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.impl;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.configuration.SheetRangeColumnBindingConfiguration;
@@ -10,7 +11,6 @@ import org.cabi.ofra.dataload.model.IProcessingContext;
 import org.cabi.ofra.dataload.model.IRangeProcessor;
 import org.cabi.ofra.dataload.util.Utilities;
 
-import javax.annotation.processing.Processor;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +61,7 @@ public abstract class AbstractRangeProcessor extends AbstractProcessor implement
         processor.setArgument(e.getKey(), e.getValue());
       }
       // and call the method to process the cell
-      processor.processCell(context, cell, eventCollector);
+      processor.processCell(context, new CellReference(cell.getRowIndex(), cell.getColumnIndex()), cell, eventCollector);
     }
     else {
       throw new ProcessorException(String.format("Processor reference %s not found for binding on column number %d", binding.getProcessorReference(), columnIndex));
