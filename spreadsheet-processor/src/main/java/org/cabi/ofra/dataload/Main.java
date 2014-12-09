@@ -65,6 +65,7 @@ public class Main {
       //logger.info(String.format("%1$s - Version %2$s", programProperties.getProperty("program.name"), programProperties.getProperty("program.version")));
       CommandLine commandLine = parser.parse(options, args);
       start(commandLine);
+      System.exit(0);
     }
     catch (ParseException e) {
       helpFormatter.printHelp("ssprocessor", options);
@@ -72,7 +73,8 @@ public class Main {
     }
     catch (Exception e)
     {
-      logger.error("Error processing spreadsheet: " + e.getMessage());
+      //logger.error("Error processing spreadsheet: " + e.getMessage());
+      System.err.println("Error processing spreadsheet: " + e.getMessage());
       System.exit(1);
     }
   }

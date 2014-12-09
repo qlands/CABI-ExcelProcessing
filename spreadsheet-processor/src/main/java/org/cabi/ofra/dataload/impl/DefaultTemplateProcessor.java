@@ -51,7 +51,7 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
         else {
           String msg = String.format("Warning: sheet configuration not found for sheet '%1$s' in template '%2$s'", sheet.getSheetName(), configuration.getName());
           eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-          throw new ProcessorException(msg);
+          //throw new ProcessorException(msg);
         }
       }
       return context;

@@ -104,7 +104,26 @@ public class DatabaseService {
     if (!trialDao.existsTrial(t.getTrialUniqueId()))
     {
       trialDao.createTrial(t);
-      System.out.println("{}");
+      String jsonString;
+        jsonString = "{\n";
+        jsonString = jsonString + "\"ID\":\"" + t.getTrialUniqueId() + "\",\n";
+        jsonString = jsonString + "\"Country\":\"" + t.getCountry() + "\",\n";
+        jsonString = jsonString + "\"Region\":\"" + t.getRegionName() + "\",\n";
+        jsonString = jsonString + "\"District\":\"" + t.getDistrictName() + "\",\n";
+        jsonString = jsonString + "\"Village\":\"" + t.getVillageName() + "\",\n";
+        jsonString = jsonString + "\"Crop1\":\"" + t.getCropOne() + "\",\n";
+        jsonString = jsonString + "\"Crop2\":\"" + t.getCropTwo() + "\",\n";
+        jsonString = jsonString + "\"Crop3\":\"" + t.getCropThree() + "\",\n";
+        jsonString = jsonString + "\"Year\":\"" + String.valueOf(t.getYear()) + "\",\n";
+        jsonString = jsonString + "\"Season\":\"" + t.getSeason() + "\",\n";
+        jsonString = jsonString + "\"FarmerOrCentre\":\"" + t.getFarmerOrCentre() + "\",\n";
+        jsonString = jsonString + "\"LeadResearcher\":\"" + t.getLeadResearcher() + "\",\n";
+        jsonString = jsonString + "\"FieldAssistantName\":\"" + t.getFieldAssistantName() + "\",\n";
+        jsonString = jsonString + "\"FieldAssistantTelephone\":\"" + t.getFieldAssistantTelephone() + "\",\n";
+        jsonString = jsonString + "\"Latitude\":\"" + String.valueOf(t.getLat()) + "\",\n";
+        jsonString = jsonString + "\"Longitude\":\"" + String.valueOf(t.getLng()) + "\"\n";
+        jsonString = jsonString + "}";
+      System.out.println(jsonString);
     }
     else {
       trialDao.updateTrial(t);
