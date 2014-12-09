@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.impl;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.event.Event;
@@ -22,34 +23,42 @@ import java.util.regex.Pattern;
  *          the variable name (next argument) will not be set
  * + variableName: name of the variable to set if the content of the cell is non blank, and if matches against the regex
  * + toString: boolean to determine if the value to store in the variable will be the {@code toString} value of the cell
+ * + required: boolean to determine if the cell value is required. If not, and the cell value is not present, the validation passes
  */
 public class ValidateAndSet extends AbstractProcessor implements ICellProcessor {
+  private static final String KEY_REQUIRED = "required";
   private static final String KEY_REGEX = "regex";
   private static final String KEY_VARIABLENAME = "variableName";
   private static final String KEY_TOSTRING = "toString";
 
   @Override
-  public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
-    if (cell == null) {
-      String msg = "Cell is null. Processing aborted on ValidateAndSet processor";
-      eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-      throw new ProcessorException(msg);
-    }
-    if (!arguments.containsKey(KEY_VARIABLENAME)) {
-      throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
-    }
-    String variableName = arguments.get(KEY_VARIABLENAME).toString();
-    if (arguments.containsKey(KEY_REGEX)) {
-      if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
-        String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
-                variableName);
+  public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
+    if (checkRequired()) {
+      if (cell == null) {
+        String msg = String.format("Cell '%s' is null. Processing aborted on ValidateAndSet processor", cellReference.formatAsString());
         eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+        throw new ProcessorException(msg);
       }
+      if (!arguments.containsKey(KEY_VARIABLENAME)) {
+        throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
+      }
+      String variableName = arguments.get(KEY_VARIABLENAME).toString();
+      if (arguments.containsKey(KEY_REGEX)) {
+        if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
+          String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
+                  variableName);
+          eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+        }
+      }
+      Serializable val = Utilities.getCellValue(cell);
+      if (arguments.containsKey(KEY_TOSTRING)) {
+        val = String.valueOf(val);
+      }
+      context.set(variableName, val);
     }
-    Serializable val = Utilities.getCellValue(cell);
-    if (arguments.containsKey(KEY_TOSTRING)) {
-      val = String.valueOf(val);
-    }
-    context.set(variableName, val);
+  }
+
+  private boolean checkRequired() {
+    return !arguments.containsKey(KEY_REQUIRED) || Boolean.valueOf(arguments.get(KEY_REQUIRED).toString());
   }
 }

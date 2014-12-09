@@ -45,13 +45,13 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
             sheetProcessor.processSheet(sheet, sheetConfiguration, eventCollector, context);
           }
           catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ProcessorException e) {
-            throw new ProcessorException(String.format("Error while processing sheet '%1$s'", sheet.getSheetName()), e);
+            throw new ProcessorException(String.format("Error while processing sheet '%s' : %s", sheet.getSheetName(), e.getMessage()));
           }
         }
         else {
           String msg = String.format("Warning: sheet configuration not found for sheet '%1$s' in template '%2$s'", sheet.getSheetName(), configuration.getName());
           eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-          throw new ProcessorException(msg);
+          //throw new ProcessorException(msg);
         }
       }
       return context;

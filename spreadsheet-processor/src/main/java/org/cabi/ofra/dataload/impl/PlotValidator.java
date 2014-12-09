@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.impl;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.db.DatabaseService;
@@ -8,9 +9,6 @@ import org.cabi.ofra.dataload.model.ICellProcessor;
 import org.cabi.ofra.dataload.model.IProcessingContext;
 import org.cabi.ofra.dataload.util.Triplet;
 import org.cabi.ofra.dataload.util.Utilities;
-
-import javax.rmi.CORBA.Util;
-import java.util.regex.Matcher;
 
 /**
  * Cell processor implementation which provides validation for Plot UIDs. Validates if a cell value represents a valid
@@ -30,7 +28,7 @@ public class PlotValidator extends AbstractProcessor implements ICellProcessor {
 
 
   @Override
-  public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
+  public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
     databaseService = context.getDatabaseService();
     String plotUid = Utilities.getStringCellValue(cell);
     StringBuffer postPlotSegment = new StringBuffer();

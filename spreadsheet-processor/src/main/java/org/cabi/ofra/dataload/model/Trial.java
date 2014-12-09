@@ -2,9 +2,6 @@ package org.cabi.ofra.dataload.model;
 
 import org.cabi.ofra.dataload.util.Pair;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * (c) 2014, Eduardo Quirós-Campos
  */
@@ -29,7 +26,7 @@ public class Trial {
   private String user;
   private int year;
   private String season;
-  private String ckanorg;
+  private String ckanOrganization;
   private String trialPublic;
   private String trialDate;
 
@@ -193,9 +190,9 @@ public class Trial {
     this.user = user;
   }
 
-  public String getckanorg() {return ckanorg;}
+  public String getCkanOrganization() {return ckanOrganization;}
 
-  public void setckanorg(String ckanorg) {this.ckanorg = ckanorg;}
+  public void setCkanOrganization(String ckanorg) {this.ckanOrganization = ckanorg;}
 
   public String getTrialPublic() {return trialPublic;}
 

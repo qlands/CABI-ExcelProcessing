@@ -59,7 +59,7 @@ public class TrialDefinitionTemplate {
       t.setYear(year.intValue());
       t.setSeason(context.getv("season"));
       t.setUser(context.getUser());
-      t.setckanorg(context.getCkanOrganization());
+      t.setCkanOrganization(context.getCkanOrganization());
       t.setTrialPublic(context.getTrialPublic());
       String trialdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       t.setTrialDate(trialdate);

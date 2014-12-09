@@ -1,5 +1,6 @@
 package org.cabi.ofra.dataload.impl;
 
+import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.db.DatabaseService;
@@ -8,8 +9,6 @@ import org.cabi.ofra.dataload.model.ICellProcessor;
 import org.cabi.ofra.dataload.model.IProcessingContext;
 import org.cabi.ofra.dataload.util.Pair;
 import org.cabi.ofra.dataload.util.Utilities;
-
-import java.util.regex.Matcher;
 
 /**
  * Cell processor implementation which provides validation for Trial UIDs. Validates if a cell value represents a valid
@@ -25,7 +24,7 @@ public class TrialValidator extends AbstractProcessor implements ICellProcessor 
   protected DatabaseService databaseService;
 
   @Override
-  public void processCell(IProcessingContext context, Cell cell, IEventCollector eventCollector) throws ProcessorException {
+  public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
     databaseService = context.getDatabaseService();
     String uid = Utilities.getStringCellValue(cell);
     Pair<String, String> pair = Utilities.splitUid(uid);

@@ -172,7 +172,7 @@ public abstract class AbstractSheetProcessor implements ISheetProcessor {
           cellProcessor.setArgument(e.getKey(), e.getValue());
         }
         // and call the processor
-        cellProcessor.processCell(context, row.getCell(ref.getCol(), Row.RETURN_BLANK_AS_NULL), eventCollector);
+        cellProcessor.processCell(context, ref, row.getCell(ref.getCol(), Row.RETURN_BLANK_AS_NULL), eventCollector);
       }
       else {
         String msg = String.format("Warning: processor reference %s not found while processing sheet '%s'", cellProcessorConfiguration.getProcessorReference(), sheet.getSheetName());
