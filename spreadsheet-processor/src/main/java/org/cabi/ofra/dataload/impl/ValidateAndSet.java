@@ -19,8 +19,8 @@ import java.util.regex.Pattern;
  * template processing chain
  * This validator accepts the following arguments:
  * + regex: optional regular expression to validate the cell value. If the argument is present, the regex is applied against
- *          the string value of the cell contents. If the value of the cell does not match against the regular expression,
- *          the variable name (next argument) will not be set
+ * the string value of the cell contents. If the value of the cell does not match against the regular expression,
+ * the variable name (next argument) will not be set
  * + variableName: name of the variable to set if the content of the cell is non blank, and if matches against the regex
  * + toString: boolean to determine if the value to store in the variable will be the {@code toString} value of the cell
  * + required: boolean to determine if the cell value is required. If not, and the cell value is not present, the validation passes
@@ -33,32 +33,30 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
 
   @Override
   public void processCell(IProcessingContext context, CellReference cellReference, Cell cell, IEventCollector eventCollector) throws ProcessorException {
-    if (checkRequired()) {
-      if (cell == null) {
-        String msg = String.format("Cell '%s' is null. Processing aborted on ValidateAndSet processor", cellReference.formatAsString());
-        eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        throw new ProcessorException(msg);
-      }
-      if (!arguments.containsKey(KEY_VARIABLENAME)) {
-        throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
-      }
-      String variableName = arguments.get(KEY_VARIABLENAME).toString();
-      if (arguments.containsKey(KEY_REGEX)) {
-        if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
-          String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
-                  variableName);
-          eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
-        }
-      }
-      Serializable val = Utilities.getCellValue(cell);
-      if (arguments.containsKey(KEY_TOSTRING)) {
-        val = String.valueOf(val);
-      }
-      context.set(variableName, val);
+    if (required() && (cell == null || Utilities.getStringCellValue(cell).isEmpty())) {
+      String msg = "Cell is blank and required. Please check template";
+      eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+      throw new ProcessorException(msg);
     }
+    if (!arguments.containsKey(KEY_VARIABLENAME)) {
+      throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
+    }
+    String variableName = arguments.get(KEY_VARIABLENAME).toString();
+    if (arguments.containsKey(KEY_REGEX)) {
+      if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
+        String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
+                variableName);
+        eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+      }
+    }
+    Serializable val = Utilities.getCellValue(cell);
+    if (arguments.containsKey(KEY_TOSTRING)) {
+      val = String.valueOf(val);
+    }
+    context.set(variableName, val);
   }
 
-  private boolean checkRequired() {
+  private boolean required() {
     return !arguments.containsKey(KEY_REQUIRED) || Boolean.valueOf(arguments.get(KEY_REQUIRED).toString());
   }
 }
