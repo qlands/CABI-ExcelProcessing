@@ -38,22 +38,24 @@ public class ValidateAndSet extends AbstractProcessor implements ICellProcessor 
       eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
       throw new ProcessorException(msg);
     }
-    if (!arguments.containsKey(KEY_VARIABLENAME)) {
-      throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
-    }
-    String variableName = arguments.get(KEY_VARIABLENAME).toString();
-    if (arguments.containsKey(KEY_REGEX)) {
-      if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
-        String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
-                variableName);
-        eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+    if (cell != null && !Utilities.getStringCellValue(cell).isEmpty()) {
+      if (!arguments.containsKey(KEY_VARIABLENAME)) {
+        throw new ProcessorException("ValidateAndSet processor requires 'variableName' argument");
       }
+      String variableName = arguments.get(KEY_VARIABLENAME).toString();
+      if (arguments.containsKey(KEY_REGEX)) {
+        if (!Pattern.matches(arguments.get(KEY_REGEX).toString(), cell.getStringCellValue())) {
+          String msg = String.format("Value '%s' does not match pattern '%s'. Variable '%s' will not be set", cell.getStringCellValue(), arguments.get(KEY_REGEX).toString(),
+                  variableName);
+          eventCollector.addEvent(EventBuilder.createBuilder().withMessage(msg).withType(Event.EVENT_TYPE.WARNING).build());
+        }
+      }
+      Serializable val = Utilities.getCellValue(cell);
+      if (arguments.containsKey(KEY_TOSTRING)) {
+        val = String.valueOf(val);
+      }
+      context.set(variableName, val);
     }
-    Serializable val = Utilities.getCellValue(cell);
-    if (arguments.containsKey(KEY_TOSTRING)) {
-      val = String.valueOf(val);
-    }
-    context.set(variableName, val);
   }
 
   private boolean required() {
