@@ -355,7 +355,7 @@
       <sheets>
         <sheet name="Block Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
-            <range start="A2" width="5" processorReference="block-soil-result-processor">
+            <range start="A2" width="18" processorReference="block-soil-result-processor">
               <column-bindings>
                 <column-binding column="0" processorReference="blockSoilSampleValidator">
                 </column-binding>
@@ -444,7 +444,7 @@
       <sheets>
         <sheet name="Plot Soil Sample" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
-            <range start="A2" width="4" processorReference="plot-soil-sample-processor">
+            <range start="A2" width="5" processorReference="plot-soil-sample-processor">
               <column-bindings>
                 <column-binding column="0" processorReference="plotValidator">
                 </column-binding>
@@ -459,7 +459,7 @@
       <sheets>
         <sheet name="Plot Soil Result" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
-            <range start="A2" width="14" processorReference="plot-soil-sample-results-processor">
+            <range start="A2" width="18" processorReference="plot-soil-sample-results-processor">
               <column-bindings>
                 <column-binding column="0" processorReference="plotSoilSampleValidator"/>
               </column-bindings>
