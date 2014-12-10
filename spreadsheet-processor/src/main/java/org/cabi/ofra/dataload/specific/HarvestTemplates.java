@@ -106,12 +106,14 @@ public class HarvestTemplates {
   public static class PlotHarvestLegumeFloweringRangeProcessor extends AbstractPlotHarvestLegumePortionRangeProcessor {
     @Override
     protected void updateHarvestLegume(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration, HarvestLegume harvestLegume) throws ProcessorException {
+/*
       try {
         harvestLegume.setFlowerDate(Utilities.getDateCellValue(row.get(1)));
       }
       catch (ParseException e) {
         throw new ProcessorException(e);
       }
+*/
     }
   }
 
@@ -152,6 +154,7 @@ public class HarvestTemplates {
   public static class PlotHarvestCerealBootingDateRangeProcessor extends AbstractPlotHarvestCerealPortionRangeProcessor {
     @Override
     protected void updateHarvestCereal(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration, HarvestCereal harvestCereal) throws ProcessorException {
+/*
       try {
         harvestCereal.setBootingDate(Utilities.getDateCellValue(row.get(1)));
       }
@@ -159,6 +162,7 @@ public class HarvestTemplates {
         throw new ProcessorException(e);
       }
       databaseService.updateHarvestCereal(harvestCereal);
+*/
     }
   }
 
@@ -222,12 +226,14 @@ public class HarvestTemplates {
   public static class PlotHarvestGrassPanicleDateRangeProcessor extends AbstractPlotHarvestGrassPortionRangeProcessor {
     @Override
     protected void updateHarvestGrass(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration, HarvestGrass harvestGrass) throws ProcessorException{
+/*
       try {
         harvestGrass.setPanicleDate(Utilities.getDateCellValue(row.get(1)));
       }
       catch (ParseException e) {
         throw new ProcessorException(e);
       }
+*/
     }
 
   }
@@ -279,12 +285,14 @@ public class HarvestTemplates {
   public static class PlotHarvestMaizeSilkDateRangeProcessor extends AbstractPlotHarvestMaizePortionRangeProcessor {
     @Override
     protected void updateHarvestMaize(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration, HarvestMaize harvestMaize) throws ProcessorException {
+/*
       try {
         harvestMaize.setSilkDate(Utilities.getDateCellValue(row.get(1)));
       }
       catch (ParseException e) {
         throw new ProcessorException(e);
       }
+*/
     }
   }
 

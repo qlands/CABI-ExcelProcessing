@@ -14,7 +14,6 @@ public class HarvestCereal {
   private double grainYield;
   private double stoverYield;
   private double stoverSample;
-  private Date bootingDate;
   private double grainMoist;
   private double stoverDryYield;
 
@@ -80,14 +79,6 @@ public class HarvestCereal {
 
   public void setStoverSample(double stoverSample) {
     this.stoverSample = stoverSample;
-  }
-
-  public Date getBootingDate() {
-    return bootingDate;
-  }
-
-  public void setBootingDate(Date bootingDate) {
-    this.bootingDate = bootingDate;
   }
 
   public double getGrainMoist() {

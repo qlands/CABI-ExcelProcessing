@@ -17,7 +17,6 @@ public class HarvestGrass {
   private double stoverYield;
   private double stoverSample;
   private double grainMoisture;
-  private Date panicleDate;
   private double stoverDryYield;
 
   public String getTrialUid() {
@@ -106,14 +105,6 @@ public class HarvestGrass {
 
   public void setGrainMoisture(double grainMoisture) {
     this.grainMoisture = grainMoisture;
-  }
-
-  public Date getPanicleDate() {
-    return panicleDate;
-  }
-
-  public void setPanicleDate(Date panicleDate) {
-    this.panicleDate = panicleDate;
   }
 
   public double getStoverDryYield() {

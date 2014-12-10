@@ -23,7 +23,7 @@ public class HarvestMaizeDao extends BaseDao implements IHarvestMaizeDao {
   public HarvestMaize findHarvestMaizeById(String trialUid, int blockId, int plotId, Date harvestDate) {
     try {
       return jdbcTemplate.queryForObject("SELECT trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_earcount, hrvst_earweight, " +
-                      "hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_silkdate, hrvst_stoverdryyield" +
+                      "hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_stoverdryyield" +
                       " FROM ofrafertrials.hrvstmaize" +
                       " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
               new Object[]{trialUid, blockId, plotId, harvestDate},
@@ -40,8 +40,7 @@ public class HarvestMaizeDao extends BaseDao implements IHarvestMaizeDao {
                 harvestMaize.setStoverYield(resultSet.getDouble(9));
                 harvestMaize.setStoverSample(resultSet.getDouble(10));
                 harvestMaize.setGrainMoisture(resultSet.getDouble(11));
-                harvestMaize.setSilkDate(resultSet.getDate(12));
-                harvestMaize.setStoverDryYield(resultSet.getDouble(13));
+                harvestMaize.setStoverDryYield(resultSet.getDouble(12));
                 return harvestMaize;
               });
     }
@@ -53,20 +52,20 @@ public class HarvestMaizeDao extends BaseDao implements IHarvestMaizeDao {
   @Override
   public void createHarvestMaize(HarvestMaize harvestMaize) {
     jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstmaize (trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_earcount, " +
-            " hrvst_earweight, hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_silkdate, hrvst_stoverdryyield) " +
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " hrvst_earweight, hrvst_grainyield, hrvst_stoveryield, hrvst_stoversample, hrvst_grainmoist, hrvst_stoverdryyield) " +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             harvestMaize.getTrialUid(), harvestMaize.getBlockId(), harvestMaize.getPlotId(), harvestMaize.getHarvestDate(), harvestMaize.getPlantCount(),
             harvestMaize.getEarCount(), harvestMaize.getEarWeight(), harvestMaize.getGrainYield(), harvestMaize.getStoverYield(), harvestMaize.getStoverSample(),
-            harvestMaize.getGrainMoisture(), harvestMaize.getSilkDate(), harvestMaize.getStoverDryYield());
+            harvestMaize.getGrainMoisture(), harvestMaize.getStoverDryYield());
   }
 
   @Override
   public void updateHarvestMaize(HarvestMaize harvestMaize) {
     jdbcTemplate.update("UPDATE ofrafertrials.hrvstmaize SET hrvst_plantcount = ?, hrvst_earcount = ?, hrvst_earweight = ?, hrvst_grainyield = ?, " +
-            " hrvst_stoveryield = ?, hrvst_stoversample = ?, hrvst_grainmoist = ?, hrvst_silkdate = ?, hrvst_stoverdryyield = ?" +
+            " hrvst_stoveryield = ?, hrvst_stoversample = ?, hrvst_grainmoist = ?, hrvst_stoverdryyield = ?" +
             " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
             harvestMaize.getPlantCount(), harvestMaize.getEarCount(), harvestMaize.getEarWeight(), harvestMaize.getGrainYield(),
-            harvestMaize.getStoverYield(), harvestMaize.getStoverSample(), harvestMaize.getGrainMoisture(), harvestMaize.getSilkDate(), harvestMaize.getStoverDryYield(),
+            harvestMaize.getStoverYield(), harvestMaize.getStoverSample(), harvestMaize.getGrainMoisture(), harvestMaize.getStoverDryYield(),
             harvestMaize.getTrialUid(), harvestMaize.getBlockId(), harvestMaize.getPlotId(), harvestMaize.getHarvestDate());
   }
 }

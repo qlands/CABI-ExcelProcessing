@@ -21,7 +21,7 @@ public class HarvestLegumesDao extends BaseDao implements IHarvestLegumesDao {
   @Override
   public HarvestLegume findHarvestLegumeById(String trialUid, int blockId, int plotId, Date harvestDate) {
     try {
-      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_biomass, hrvst_yield, hrvst_flowerdate, " +
+      return jdbcTemplate.queryForObject("SELECT trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_biomass, hrvst_yield, " +
                       " hrvst_grainmoist " +
                       " FROM ofrafertrials.hrvstlegumes" +
                       " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
@@ -35,8 +35,7 @@ public class HarvestLegumesDao extends BaseDao implements IHarvestLegumesDao {
                 harvestLegume.setPlantCount(resultSet.getInt(5));
                 harvestLegume.setBioMass(resultSet.getDouble(6));
                 harvestLegume.setYield(resultSet.getDouble(7));
-                harvestLegume.setFlowerDate(resultSet.getDate(8));
-                harvestLegume.setGrainMoisture(resultSet.getDouble(9));
+                harvestLegume.setGrainMoisture(resultSet.getDouble(8));
                 return harvestLegume;
               });
     }
@@ -48,17 +47,17 @@ public class HarvestLegumesDao extends BaseDao implements IHarvestLegumesDao {
   @Override
   public void createHarvestLegume(HarvestLegume harvestLegume) {
     jdbcTemplate.update("INSERT INTO ofrafertrials.hrvstlegumes (trial_id, block_id, plot_id, hrvst_date, hrvst_plantcount, hrvst_biomass, " +
-            " hrvst_yield, hrvst_flowerdate, hrvst_grainmoist) " +
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            " hrvst_yield, hrvst_grainmoist) " +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             harvestLegume.getTrialUid(), harvestLegume.getBlockId(), harvestLegume.getPlotId(), harvestLegume.getHarvestDate(), harvestLegume.getPlantCount(),
-            harvestLegume.getBioMass(), harvestLegume.getYield(), harvestLegume.getFlowerDate(), harvestLegume.getGrainMoisture());
+            harvestLegume.getBioMass(), harvestLegume.getYield(), harvestLegume.getGrainMoisture());
   }
 
   @Override
   public void updateHarvestLegume(HarvestLegume harvestLegume) {
-    jdbcTemplate.update("UPDATE ofrafertrials.hrvstlegumes SET hrvst_plantcount = ?, hrvst_biomass = ?, hrvst_yield = ?, hrvst_flowerdate = ?, hrvst_grainmoist = ?" +
+    jdbcTemplate.update("UPDATE ofrafertrials.hrvstlegumes SET hrvst_plantcount = ?, hrvst_biomass = ?, hrvst_yield = ?, hrvst_grainmoist = ?" +
             " WHERE trial_id = ? AND block_id = ? AND plot_id = ? AND hrvst_date = ?",
-            harvestLegume.getPlantCount(), harvestLegume.getBioMass(), harvestLegume.getYield(), harvestLegume.getFlowerDate(), harvestLegume.getGrainMoisture(),
+            harvestLegume.getPlantCount(), harvestLegume.getBioMass(), harvestLegume.getYield(), harvestLegume.getGrainMoisture(),
             harvestLegume.getTrialUid(), harvestLegume.getBlockId(), harvestLegume.getPlotId(), harvestLegume.getHarvestDate());
   }
 }

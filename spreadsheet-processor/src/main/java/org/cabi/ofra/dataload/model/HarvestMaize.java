@@ -17,7 +17,6 @@ public class HarvestMaize {
   private double stoverYield;
   private double stoverSample;
   private double grainMoisture;
-  private Date silkDate;
   private double stoverDryYield;
 
   public String getTrialUid() {
@@ -106,14 +105,6 @@ public class HarvestMaize {
 
   public void setGrainMoisture(double grainMoisture) {
     this.grainMoisture = grainMoisture;
-  }
-
-  public Date getSilkDate() {
-    return silkDate;
-  }
-
-  public void setSilkDate(Date silkDate) {
-    this.silkDate = silkDate;
   }
 
   public double getStoverDryYield() {

@@ -13,7 +13,6 @@ public class HarvestLegume {
   private int plantCount;
   private double bioMass;
   private double yield;
-  private Date flowerDate;
   private double grainMoisture;
 
   public String getTrialUid() {
@@ -70,14 +69,6 @@ public class HarvestLegume {
 
   public void setYield(double yield) {
     this.yield = yield;
-  }
-
-  public Date getFlowerDate() {
-    return flowerDate;
-  }
-
-  public void setFlowerDate(Date flowerDate) {
-    this.flowerDate = flowerDate;
   }
 
   public double getGrainMoisture() {
