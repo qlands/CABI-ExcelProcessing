@@ -12,6 +12,7 @@
     <cell-processor name="plotSoilSampleValidator" class="org.cabi.ofra.dataload.impl.PlotSoilSampleValidator"/>
     <cell-processor name="harvestValidator" class="org.cabi.ofra.dataload.impl.HarvestValidator"/>
     <cell-processor name="cropValidator" class="org.cabi.ofra.dataload.impl.CropValidator"/>
+    <cell-processor name="activityValidator" class="org.cabi.ofra.dataload.impl.ActivityValidator"/>
   </cell-processors>
   <range-processors>
     <!-- Trial Processors -->
@@ -306,6 +307,7 @@
                     <arg name="blockMessage" value="Cell value %s references block %d for trial UID %s, which does not exist"/>
                   </args>
                 </column-binding>
+                <column-binding column="3" processorReference="activityValidator"/>
               </column-bindings>
             </range>
           </ranges>
@@ -386,8 +388,8 @@
           <ranges>
             <range start="A2" width="5" processorReference="plot-activities-processor">
               <column-bindings>
-                <column-binding column="0" processorReference="plotValidator">
-                </column-binding>
+                <column-binding column="0" processorReference="plotValidator"/>
+                <column-binding column="3" processorReference="activityValidator"/>
               </column-bindings>
             </range>
           </ranges>

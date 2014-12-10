@@ -47,7 +47,9 @@ public class BlockActivityDao extends BaseDao implements IBlockActivityDao {
   @Override
   public void updateBlockActivity(BlockActivity blockActivity) {
     jdbcTemplate.update("UPDATE ofrafertrials.blockactivity SET actytype_id = ?, pacty_date = ?, pacty_notes = ? " +
-            "WHERE trial_id = ? AND block_id = ? AND actytype_id = ?", blockActivity.getTrialUniqueId(), String.valueOf(blockActivity.getBlockNumber()),
+            "WHERE trial_id = ? AND block_id = ? AND actytype_id = ?", blockActivity.getAcivityType(), blockActivity.getActivityDate(),
+            blockActivity.getActivityNotes(),
+            blockActivity.getTrialUniqueId(), String.valueOf(blockActivity.getBlockNumber()),
             blockActivity.getActivityNumber());
   }
 }

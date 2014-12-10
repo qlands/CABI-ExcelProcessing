@@ -23,6 +23,7 @@ public class DatabaseService {
   private IBlockDao blockDao;
   private ICropDao cropDao;
   private ICountryDao countryDao;
+  private IActivityDao activityDao;
   private IPlotDao plotDao;
   private ITrialSoilSampleDao trialSoilSampleDao;
   private IBlockActivityDao blockActivityDao;
@@ -58,6 +59,8 @@ public class DatabaseService {
     cropDao.setDataSource(dataSource);
     countryDao = new CountryDao();
     countryDao.setDataSource(dataSource);
+    activityDao = new ActivityDao();
+    activityDao.setDataSource(dataSource);
     plotDao = new PlotDao();
     plotDao.setDataSource(dataSource);
     trialSoilSampleDao = new TrialSoilSampleDao();
@@ -159,7 +162,7 @@ public class DatabaseService {
     }
   }
 
-  // Utility routines for Crops and Countries catalogs
+  // Utility routines for Crops, Countries and Activities catalogs
 
   public boolean existsCrop(String cropId) {
     return cropDao.existsCrop(cropId);
@@ -167,6 +170,10 @@ public class DatabaseService {
 
   public boolean existsCountry(String countryCode) {
     return countryDao.existsCountry(countryCode);
+  }
+
+  public boolean existsActivity(String activityCode) {
+    return activityDao.existsActivity(activityCode);
   }
 
   // Plots
