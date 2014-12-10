@@ -59,7 +59,7 @@ public class DefaultTemplateProcessor implements ITemplateProcessor {
       databaseService.commit();
       return context;
     }
-    catch (IOException |SQLException e) {
+    catch (IOException | SQLException  e) {
       throw new ProcessorException(e);
     }
   }

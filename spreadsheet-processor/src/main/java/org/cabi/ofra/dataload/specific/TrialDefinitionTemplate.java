@@ -110,7 +110,7 @@ public class TrialDefinitionTemplate {
 
     private Block buildBlockFromRow(List<Cell> row, IProcessingContext context) {
       Block block = new Block();
-      block.setTrialUniqueId(context.getv("blocksTrialUID"));
+      block.setTrialUniqueId(context.getv("trialUniqueId"));
       block.setBlockNumber(Utilities.getIntegerCellValue(row.get(0)));
       block.setLat(Utilities.getDoubleCellValue(row.get(1)));
       block.setLng(Utilities.getDoubleCellValue(row.get(2)));
@@ -153,7 +153,7 @@ public class TrialDefinitionTemplate {
 
     private Plot buildPlotFromRow(List<Cell> row, IProcessingContext context) {
       Plot plot = new Plot();
-      plot.setTrialUniqueId(context.getv("plotsTrialUID"));
+      plot.setTrialUniqueId(context.getv("trialUniqueId"));
       plot.setBlockNumber(Utilities.getIntegerCellValue(row.get(0)));
       plot.setPlotId(Utilities.getIntegerCellValue(row.get(1)));
       plot.setArea(Utilities.getDoubleCellValue(row.get(2)));

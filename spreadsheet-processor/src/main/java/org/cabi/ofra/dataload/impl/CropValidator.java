@@ -29,7 +29,7 @@ public class CropValidator extends AbstractProcessor implements ICellProcessor {
       String cropCode = Utilities.getStringCellValue(cell);
       DatabaseService databaseService = context.getDatabaseService();
       if (!databaseService.existsCrop(cropCode)) {
-        throw new ProcessorException(getMessage(KEY_VALIDATIONMESSAGE, String.format("Crop code '%s' is not valid", cropCode)));
+        throw new ProcessorException(getMessage(KEY_VALIDATIONMESSAGE, "Crop code '%s' is not valid", cropCode));
       }
     }
   }

@@ -5,6 +5,7 @@ import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.db.impl.*;
 import org.cabi.ofra.dataload.model.*;
 import org.cabi.ofra.dataload.util.Utilities;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -17,7 +18,7 @@ import java.util.Properties;
  * database access
  */
 public class DatabaseService {
-  private BasicDataSource dataSource;
+  private SingleConnectionDataSource dataSource;
   private ITrialDao trialDao;
   private IBlockDao blockDao;
   private ICropDao cropDao;
@@ -39,8 +40,8 @@ public class DatabaseService {
   private IHarvestCassavaDao harvestCassavaDao;
 
   public DatabaseService() {
-    dataSource = new BasicDataSource();
-    dataSource.setDefaultAutoCommit(false);
+    dataSource = new SingleConnectionDataSource();
+    dataSource.setAutoCommit(false);
   }
 
   public void initialize(String propertiesFile) throws IOException {
