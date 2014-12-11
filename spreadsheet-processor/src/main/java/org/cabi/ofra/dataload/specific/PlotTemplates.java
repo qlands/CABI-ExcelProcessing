@@ -5,6 +5,7 @@ import org.cabi.ofra.dataload.ProcessorException;
 import org.cabi.ofra.dataload.configuration.SheetRangeConfiguration;
 import org.cabi.ofra.dataload.db.DatabaseService;
 import org.cabi.ofra.dataload.event.IEventCollector;
+import org.cabi.ofra.dataload.impl.AbstractProcessor;
 import org.cabi.ofra.dataload.impl.AbstractRangeProcessor;
 import org.cabi.ofra.dataload.model.*;
 import org.cabi.ofra.dataload.util.Triplet;
@@ -17,6 +18,72 @@ import java.util.List;
  * Created by equiros on 11/26/2014.
  */
 public class PlotTemplates {
+  private static abstract class AbstractPlotPortionRangeProcessor extends AbstractRangeProcessor {
+    protected DatabaseService databaseService;
+
+    @Override
+    protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+      databaseService = context.getDatabaseService();
+      String plotUid = Utilities.getStringCellValue(row.get(0));
+      Triplet<String, Integer, Integer> triplet = Utilities.splitPlotUid(plotUid);
+      Plot plot = databaseService.findPlotById(triplet.getFirst(), triplet.getSecond(), triplet.getThird());
+      if (plot != null) {
+        updatePlot(row, plot, eventCollector, rangeConfiguration);
+        databaseService.updatePlot(plot);
+      }
+    }
+
+    protected abstract void updatePlot(List<Cell> row, Plot plot, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException;
+  }
+
+  public static class PlotFloweringDateRangeProcessor extends AbstractPlotPortionRangeProcessor {
+    @Override
+    protected void updatePlot(List<Cell> row, Plot plot, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+      try {
+        plot.setFlowerDate(Utilities.getDateCellValue(row.get(1)));
+      }
+      catch (ParseException e) {
+        throw new ProcessorException(e);
+      }
+    }
+  }
+
+  public static class PlotBootingDateRangeProcessor extends AbstractPlotPortionRangeProcessor {
+    @Override
+    protected void updatePlot(List<Cell> row, Plot plot, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+      try {
+        plot.setBootingDate(Utilities.getDateCellValue(row.get(1)));
+      }
+      catch (ParseException e) {
+        throw new ProcessorException(e);
+      }
+    }
+  }
+
+  public static class PlotPanicleDateRangeProcessor extends AbstractPlotPortionRangeProcessor {
+    @Override
+    protected void updatePlot(List<Cell> row, Plot plot, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+      try {
+        plot.setPanicleDate(Utilities.getDateCellValue(row.get(1)));
+      }
+      catch (ParseException e) {
+        throw new ProcessorException(e);
+      }
+    }
+  }
+
+  public static class PlotSilkDateRangeProcessor extends AbstractPlotPortionRangeProcessor {
+    @Override
+    protected void updatePlot(List<Cell> row, Plot plot, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {
+      try {
+        plot.setSilkDate(Utilities.getDateCellValue(row.get(1)));
+      }
+      catch (ParseException e) {
+        throw new ProcessorException(e);
+      }
+    }
+  }
+
   public static class PlotActivitiesRangeProcessor extends AbstractRangeProcessor {
     @Override
     protected void process(IProcessingContext context, List<Cell> row, IEventCollector eventCollector, SheetRangeConfiguration rangeConfiguration) throws ProcessorException {

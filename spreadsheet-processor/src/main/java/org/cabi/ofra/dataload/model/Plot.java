@@ -1,5 +1,7 @@
 package org.cabi.ofra.dataload.model;
 
+import java.util.Date;
+
 /**
  * Created by equiros on 11/9/2014.
  */
@@ -20,6 +22,10 @@ public class Plot {
   private double magnesium;
   private double boron;
   private double manure;
+  private Date bootingDate;
+  private Date silkDate;
+  private Date flowerDate;
+  private Date panicleDate;
 
   public String getTrialUniqueId() {
     return trialUniqueId;
@@ -151,5 +157,37 @@ public class Plot {
 
   public void setManure(double manure) {
     this.manure = manure;
+  }
+
+  public Date getBootingDate() {
+    return bootingDate;
+  }
+
+  public void setBootingDate(Date bootingDate) {
+    this.bootingDate = bootingDate;
+  }
+
+  public Date getSilkDate() {
+    return silkDate;
+  }
+
+  public void setSilkDate(Date silkDate) {
+    this.silkDate = silkDate;
+  }
+
+  public Date getFlowerDate() {
+    return flowerDate;
+  }
+
+  public void setFlowerDate(Date flowerDate) {
+    this.flowerDate = flowerDate;
+  }
+
+  public Date getPanicleDate() {
+    return panicleDate;
+  }
+
+  public void setPanicleDate(Date panicleDate) {
+    this.panicleDate = panicleDate;
   }
 }

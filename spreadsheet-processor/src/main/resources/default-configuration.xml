@@ -33,27 +33,27 @@
     <range-processor name="plot-plant-sample-results-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotPlantSampleResultsRangeProcessor"/>
     <range-processor name="plot-soil-sample-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotSoilSampleRangeProcessor"/>
     <range-processor name="plot-soil-sample-results-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotSoilSampleResultsRangeProcessor"/>
+    <range-processor name="plot-floweringdate-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotFloweringDateRangeProcessor"/>
+    <range-processor name="plot-silkdate-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotSilkDateRangeProcessor"/>
+    <range-processor name="plot-bootingdate-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotBootingDateRangeProcessor"/>
+    <range-processor name="plot-panicledate-processor" class="org.cabi.ofra.dataload.specific.PlotTemplates$PlotPanicleDateRangeProcessor"/>
     <!-- Harvest Processors: Legumes -->
     <range-processor name="harvest-legumes-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestLegumeRangeProcessor"/>
     <range-processor name="harvest-legumes-moisture-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestLegumeMoistureRangeProcessor"/>
-    <range-processor name="harvest-legumes-flowering-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestLegumeFloweringRangeProcessor"/>
     <!-- Harvest Processors: Cassava -->
     <range-processor name="harvest-cassava-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCassavaRangeProcessor"/>
     <range-processor name="harvest-cassava-weights-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCassavaDryWeightsRangeProcessor"/>
     <!-- Harvest Processors: Maize -->
     <range-processor name="harvest-maize-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestMaizeRangeProcessor"/>
     <range-processor name="harvest-maize-moisture-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestMaizeMoistureRangeProcessor"/>
-    <range-processor name="harvest-maize-silkdate-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestMaizeSilkDateRangeProcessor"/>
     <range-processor name="harvest-maize-dryweight-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestMaizeStoverDryWeightRangeProcessor"/>
     <!-- Harvest Processors: Cereals -->
     <range-processor name="harvest-cereals-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCerealRangeProcessor"/>
-    <range-processor name="harvest-cereals-bootingdate-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCerealBootingDateRangeProcessor"/>
     <range-processor name="harvest-cereals-moisture-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCerealMoistureContentRangeProcessor"/>
     <range-processor name="harvest-cereals-dryweight-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestCerealStoverDryRangeProcessor"/>
     <!-- Harvest Processors: Grasses -->
     <range-processor name="harvest-grasses-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestGrassRangeProcessor"/>
     <range-processor name="harvest-grasses-moisture-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestGrassMoistureRangeProcessor"/>
-    <range-processor name="harvest-grasses-panicledate-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestGrassPanicleDateRangeProcessor"/>
     <range-processor name="harvest-grasses-dryweight-processor" class="org.cabi.ofra.dataload.specific.HarvestTemplates$PlotHarvestGrassStoverDryRangeProcessor"/>
   </range-processors>
   <templates>
@@ -470,6 +470,62 @@
         </sheet>
       </sheets>
     </template>
+    <!-- Plot Flowering Date Template -->
+    <template name="plot-flowering-date">
+      <sheets>
+        <sheet name="Beans Flowering Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="2" processorReference="plot-floweringdate-processor" requireAll="true">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator"/>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <!-- Plot Silk Date Template -->
+    <template name="plot-silk-date">
+      <sheets>
+        <sheet name="Maize Silk Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="2" processorReference="plot-silkdate-processor" requireAll="true">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator"/>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <!-- Plot Booting Date Template -->
+    <template name="plot-booting-date">
+      <sheets>
+        <sheet name="RiMilWhTeff Booting Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="2" processorReference="plot-bootingdate-processor" requireAll="true">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator"/>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
+    <!-- Plot Panicle Date Template -->
+    <template name="plot-panicle-date">
+      <sheets>
+        <sheet name="SorPMillet Panicle Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
+          <ranges>
+            <range start="A2" width="2" processorReference="plot-panicledate-processor" requireAll="true">
+              <column-bindings>
+                <column-binding column="0" processorReference="plotValidator"/>
+              </column-bindings>
+            </range>
+          </ranges>
+        </sheet>
+      </sheets>
+    </template>
     <!-- Beans Harvesting Template -->
     <template name="plot-harvest-beans">
       <sheets>
@@ -490,24 +546,6 @@
         <sheet name="Beans Moisture Content" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
             <range start="A2" width="2" processorReference="harvest-legumes-moisture-processor" requireAll="true">
-              <column-bindings>
-                <column-binding column="0" processorReference="harvestValidator">
-                  <args>
-                    <arg name="harvestType" value="legumes"/>
-                  </args>
-                </column-binding>
-              </column-bindings>
-            </range>
-          </ranges>
-        </sheet>
-      </sheets>
-    </template>
-    <!-- Beans Flowering Date Template -->
-    <template name="plot-harvest-beans-flowering">
-      <sheets>
-        <sheet name="Beans Flowering Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
-          <ranges>
-            <range start="A2" width="2" processorReference="harvest-legumes-flowering-processor" requireAll="true">
               <column-bindings>
                 <column-binding column="0" processorReference="harvestValidator">
                   <args>
@@ -584,24 +622,6 @@
         </sheet>
       </sheets>
     </template>
-    <!-- Maize Silk Date Template -->
-    <template name="plot-harvest-maize-silkdate">
-      <sheets>
-        <sheet name="Maize Silk Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
-          <ranges>
-            <range start="A2" width="2" processorReference="harvest-maize-silkdate-processor" requireAll="true">
-              <column-bindings>
-                <column-binding column="0" processorReference="harvestValidator">
-                  <args>
-                    <arg name="harvestType" value="maize"/>
-                  </args>
-                </column-binding>
-              </column-bindings>
-            </range>
-          </ranges>
-        </sheet>
-      </sheets>
-    </template>
     <!-- Maize Dry Weights Template -->
     <template name="plot-harvest-maize-dryweights">
       <sheets>
@@ -652,24 +672,6 @@
         </sheet>
       </sheets>
     </template>
-    <!-- Other Legumes Flowering Date Template -->
-    <template name="plot-harvest-otherlegumes-flowering">
-      <sheets>
-        <sheet name="Other Legumes Flowering Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
-          <ranges>
-            <range start="A2" width="2" processorReference="harvest-legumes-flowering-processor" requireAll="true">
-              <column-bindings>
-                <column-binding column="0" processorReference="harvestValidator">
-                  <args>
-                    <arg name="harvestType" value="legumes"/>
-                  </args>
-                </column-binding>
-              </column-bindings>
-            </range>
-          </ranges>
-        </sheet>
-      </sheets>
-    </template>
     <!-- Cereals Harvesting Template -->
     <template name="plot-harvest-cereals">
       <sheets>
@@ -690,24 +692,6 @@
         <sheet name="RiMilWhTeff Moisture Content" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
             <range start="A2" width="2" processorReference="harvest-cereals-moisture-processor" requireAll="true">
-              <column-bindings>
-                <column-binding column="0" processorReference="harvestValidator">
-                  <args>
-                    <arg name="harvestType" value="cereal"/>
-                  </args>
-                </column-binding>
-              </column-bindings>
-            </range>
-          </ranges>
-        </sheet>
-      </sheets>
-    </template>
-    <!-- Cereals Booting Date Template -->
-    <template name="plot-harvest-cereals-bootingdate">
-      <sheets>
-        <sheet name="RiMilWhTeff Booting Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
-          <ranges>
-            <range start="A2" width="2" processorReference="harvest-cereals-bootingdate-processor" requireAll="true">
               <column-bindings>
                 <column-binding column="0" processorReference="harvestValidator">
                   <args>
@@ -758,24 +742,6 @@
         <sheet name="SorPMillet Moisture Content" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
           <ranges>
             <range start="A2" width="2" processorReference="harvest-grasses-moisture-processor" requireAll="true">
-              <column-bindings>
-                <column-binding column="0" processorReference="harvestValidator">
-                  <args>
-                    <arg name="harvestType" value="grass"/>
-                  </args>
-                </column-binding>
-              </column-bindings>
-            </range>
-          </ranges>
-        </sheet>
-      </sheets>
-    </template>
-    <!-- Grasses Panicle Date Template -->
-    <template name="plot-harvest-grasses-panicledate">
-      <sheets>
-        <sheet name="SorPMillet Panicle Date" required="true" implementationClass="org.cabi.ofra.dataload.impl.BaseSheetProcessor">
-          <ranges>
-            <range start="A2" width="2" processorReference="harvest-grasses-panicledate-processor" requireAll="true">
               <column-bindings>
                 <column-binding column="0" processorReference="harvestValidator">
                   <args>

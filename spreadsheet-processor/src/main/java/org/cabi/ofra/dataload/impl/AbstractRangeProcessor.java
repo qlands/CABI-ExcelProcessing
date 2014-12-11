@@ -26,7 +26,7 @@ public abstract class AbstractRangeProcessor extends AbstractProcessor implement
     for (Cell cell : row) {
       // validates that for 'requireAll' ranges, there are no blank cells
       if (Utilities.isBlank(cell) && rangeConfiguration.isRequireAll()) {
-        throw new ProcessorException(String.format("Cell at position %d is null in range ", columnIndex));
+        throw new ProcessorException(String.format("Cell at column %d is blank, and is required for processing", columnIndex + 1));
       }
       // obtains the associated column binding for the column (index based)
       SheetRangeColumnBindingConfiguration binding = bindings.get(columnIndex);

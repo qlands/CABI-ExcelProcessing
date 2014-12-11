@@ -182,6 +182,14 @@ public class DatabaseService {
     return plotDao.existsPlotById(trialUid, blockId, plotId);
   }
 
+  public Plot findPlotById(String trialUid, int blockId, int plotId) {
+    return plotDao.findPlotById(trialUid, blockId, plotId);
+  }
+
+  public void updatePlot(Plot plot) {
+    plotDao.updatePlot(plot);
+  }
+
   public void createOrUpdatePlot(Plot p) {
     if (!plotDao.existsPlot(p)) {
       plotDao.createPlot(p);
